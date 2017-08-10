@@ -1,0 +1,12 @@
+@action delete
+@feature outgoing
+pattern mutation_0
+instance:Place
+guard: instance.incoming.size()>=3
+{
+	do {
+		var arc = PlaceToTransArc.all.select(a|a.source = instance);
+		instance.incoming.remove(arc);
+	}
+}
+//Done

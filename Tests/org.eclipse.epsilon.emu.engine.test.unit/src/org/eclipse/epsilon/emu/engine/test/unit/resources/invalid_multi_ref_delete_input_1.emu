@@ -1,0 +1,13 @@
+@action delete
+@feature incoming
+pattern mutation_1
+instance:Transition
+guard: instance.name.equals("T0")
+{
+	do {
+		// delete the last item of a collection
+		var arc = instance.incoming.random();
+		instance.incoming.remove(arc);
+	}
+}
+//Done

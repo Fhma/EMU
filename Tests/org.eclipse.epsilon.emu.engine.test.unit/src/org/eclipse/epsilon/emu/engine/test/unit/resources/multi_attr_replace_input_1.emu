@@ -1,0 +1,14 @@
+@action replace
+@feature start_end_coordinates
+pattern mutation_1
+instance:Rectangle
+guard: instance.belongs_to.isUndefined()
+{
+	do {
+		var newPoint:Integer = 999;
+		var item = instance.start_end_coordinates.random();
+		instance.start_end_coordinates.remove(item);
+		instance.start_end_coordinates.add(newPoint);
+	}
+}
+//Done

@@ -1,0 +1,49 @@
+@namespace(uri="PetriNet", prefix="petrinet")
+package petrinet_metamodel;
+
+abstract class Element {
+  attr EString[*] comments;
+  attr EString[1] name;
+}
+
+class PetriNet extends Element {
+  val Place[+]#petrinet places;
+  val Transition[*]#petrinet transitions;
+  val Arc[*] arcs;
+}
+
+class Place extends Element {
+  attr EInt radius;
+  attr EString fill_colour;
+  !unique attr EInt[0..2] coordinates;
+  ref TransToPlaceArc[*]#target incoming;
+  ref PlaceToTransArc[*]#source outgoing;
+  ref PetriNet[1]#places petrinet;
+}
+
+class Transition extends Element {
+  ref PetriNet#transitions petrinet;
+  ref PlaceToTransArc[+]#target incoming;
+  ref TransToPlaceArc[+]#source outgoing;
+  val Rectangle#belongs_to rectangle;
+}
+
+abstract class Arc {
+  attr EInt[1] weight = 1;
+}
+
+class PlaceToTransArc extends Arc {
+  ref Place[1]#outgoing source;
+  ref Transition[1]#incoming target;
+}
+
+class TransToPlaceArc extends Arc {
+  ref Transition[1]#outgoing source;
+  ref Place[1]#incoming target;
+}
+
+class Rectangle {
+  ref Transition#rectangle belongs_to;
+  !unique attr EInt[4] start_end_coordinates;
+}
+

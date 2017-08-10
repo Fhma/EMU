@@ -1,0 +1,12 @@
+@action replace
+@feature radius
+pattern Place_replace_radius
+instance:Place from: Place.all
+guard: instance.outgoing.size()>=2
+{
+	do {
+		var newRadius:Integer = 3333;
+		instance.radius = newRadius;
+	}
+}
+//Done

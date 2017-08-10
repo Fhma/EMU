@@ -1,0 +1,6 @@
+@action add
+@feature weight
+pattern mutation_0
+instance: PlaceToTransArc
+guard: instance.source.name.equals("P9")
+//Done

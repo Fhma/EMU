@@ -1,0 +1,6 @@
+@action delete
+@feature name
+pattern mutation_2
+instance: Transition
+guard: instance.outgoing.size()+instance.incoming.size()>=4
+//Done

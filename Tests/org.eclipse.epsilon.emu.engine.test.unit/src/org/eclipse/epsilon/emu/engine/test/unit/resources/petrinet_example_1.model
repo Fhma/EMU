@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:petrinet="PetriNet">
+  <petrinet:Rectangle>
+    <start_end_coordinates>1</start_end_coordinates>
+    <start_end_coordinates>7</start_end_coordinates>
+    <start_end_coordinates>2</start_end_coordinates>
+    <start_end_coordinates>9</start_end_coordinates>
+  </petrinet:Rectangle>
+  <petrinet:PetriNet name="Petrinet Example 1">
+    <places name="P0" fill_colour="red" incoming="/1/@arcs.6" outgoing="/1/@arcs.0">
+      <comments>This place (P0) has no radius value</comments>
+      <coordinates>5</coordinates>
+      <coordinates>5</coordinates>
+    </places>
+    <places name="P1" radius="1" fill_colour="blue" incoming="/1/@arcs.7 /1/@arcs.13" outgoing="/1/@arcs.1 /1/@arcs.2">
+      <comments>this is first simple comment for place 'P1'</comments>
+      <comments>this is second simple comment for place 'P1'</comments>
+      <coordinates>5</coordinates>
+      <coordinates>15</coordinates>
+    </places>
+    <places name="P2" radius="2" fill_colour="green" incoming="/1/@arcs.8" outgoing="/1/@arcs.3">
+      <coordinates>15</coordinates>
+      <coordinates>5</coordinates>
+    </places>
+    <places name="P3" radius="3" fill_colour="yellow" incoming="/1/@arcs.9 /1/@arcs.10" outgoing="/1/@arcs.4">
+      <comments>This place (P3) has only x point for coordinates</comments>
+      <coordinates>15</coordinates>
+    </places>
+    <places name="P4" radius="4" fill_colour="white" incoming="/1/@arcs.12">
+      <comments>This place (P4) has no coordinates</comments>
+    </places>
+    <places name="P5" radius="5" fill_colour="gray" incoming="/1/@arcs.11" outgoing="/1/@arcs.5">
+      <coordinates>7</coordinates>
+      <coordinates>18</coordinates>
+    </places>
+    <places name="P6" radius="6" outgoing="/1/@arcs.14">
+      <coordinates>8</coordinates>
+      <coordinates>7</coordinates>
+    </places>
+    <transitions name="T0" incoming="/1/@arcs.5" outgoing="/1/@arcs.6 /1/@arcs.7">
+      <comments>This transition (T0) has no associated rectangle shape</comments>
+    </transitions>
+    <transitions name="T1" incoming="/1/@arcs.0 /1/@arcs.2" outgoing="/1/@arcs.8 /1/@arcs.9">
+      <rectangle>
+        <start_end_coordinates>8</start_end_coordinates>
+        <start_end_coordinates>3</start_end_coordinates>
+        <start_end_coordinates>9</start_end_coordinates>
+        <start_end_coordinates>5</start_end_coordinates>
+      </rectangle>
+    </transitions>
+    <transitions name="T2" incoming="/1/@arcs.1 /1/@arcs.14" outgoing="/1/@arcs.10">
+      <rectangle>
+        <start_end_coordinates>8</start_end_coordinates>
+        <start_end_coordinates>14</start_end_coordinates>
+        <start_end_coordinates>9</start_end_coordinates>
+        <start_end_coordinates>16</start_end_coordinates>
+      </rectangle>
+    </transitions>
+    <transitions name="T3" incoming="/1/@arcs.3 /1/@arcs.4" outgoing="/1/@arcs.11 /1/@arcs.12 /1/@arcs.13">
+      <rectangle>
+        <start_end_coordinates>17</start_end_coordinates>
+        <start_end_coordinates>7</start_end_coordinates>
+        <start_end_coordinates>18</start_end_coordinates>
+        <start_end_coordinates>9</start_end_coordinates>
+      </rectangle>
+    </transitions>
+    <arcs xsi:type="petrinet:PlaceToTransArc" source="/1/@places.0" target="/1/@transitions.1"/>
+    <arcs xsi:type="petrinet:PlaceToTransArc" source="/1/@places.1" target="/1/@transitions.2"/>
+    <arcs xsi:type="petrinet:PlaceToTransArc" source="/1/@places.1" target="/1/@transitions.1"/>
+    <arcs xsi:type="petrinet:PlaceToTransArc" source="/1/@places.2" target="/1/@transitions.3"/>
+    <arcs xsi:type="petrinet:PlaceToTransArc" source="/1/@places.3" target="/1/@transitions.3"/>
+    <arcs xsi:type="petrinet:PlaceToTransArc" source="/1/@places.5" target="/1/@transitions.0"/>
+    <arcs xsi:type="petrinet:TransToPlaceArc" source="/1/@transitions.0" target="/1/@places.0"/>
+    <arcs xsi:type="petrinet:TransToPlaceArc" source="/1/@transitions.0" target="/1/@places.1"/>
+    <arcs xsi:type="petrinet:TransToPlaceArc" source="/1/@transitions.1" target="/1/@places.2"/>
+    <arcs xsi:type="petrinet:TransToPlaceArc" source="/1/@transitions.1" target="/1/@places.3"/>
+    <arcs xsi:type="petrinet:TransToPlaceArc" source="/1/@transitions.2" target="/1/@places.3"/>
+    <arcs xsi:type="petrinet:TransToPlaceArc" source="/1/@transitions.3" target="/1/@places.5"/>
+    <arcs xsi:type="petrinet:TransToPlaceArc" source="/1/@transitions.3" target="/1/@places.4"/>
+    <arcs xsi:type="petrinet:TransToPlaceArc" source="/1/@transitions.3" target="/1/@places.1"/>
+    <arcs xsi:type="petrinet:PlaceToTransArc" source="/1/@places.6" target="/1/@transitions.2"/>
+  </petrinet:PetriNet>
+</xmi:XMI>

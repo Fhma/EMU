@@ -1,0 +1,14 @@
+@action add
+@feature rectangle
+pattern mutation_1
+instance:Transition
+guard: instance.name = "T1"
+{
+	do {
+		// assign a value to already defined value
+		var rec = Rectangle.createInstance();
+		rec.start_end_coordinates = Sequence {99,99,99,99};
+		instance.rectangle = rec;
+	}		
+}
+//Done

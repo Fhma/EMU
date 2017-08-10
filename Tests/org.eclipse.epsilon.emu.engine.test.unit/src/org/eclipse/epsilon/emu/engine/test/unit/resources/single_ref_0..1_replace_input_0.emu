@@ -1,0 +1,13 @@
+@action replace
+@feature rectangle
+pattern mutation_0
+instance:Transition
+guard: instance.outgoing.size()>=7
+{
+	do {
+		var rec = Rectangle.all.select(r|r.start_end_coordinates.includes(14)).random();
+		if(not rec.equals(instance.rectangle))
+			instance.rectangle = rec;
+	}
+ }
+ //Done

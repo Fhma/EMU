@@ -1,0 +1,9 @@
+@action replace
+@feature rectangle
+pattern mutation_3
+instance:Transition
+guard: instance.name = "T0"
+{
+	//replace with no do block-> replace with same value
+}
+//Done

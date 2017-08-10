@@ -1,0 +1,12 @@
+// zero mutants - no matching
+@action add
+@feature comments
+pattern mutation_0
+instance:Transition
+guard: instance.incoming.size() + instance.outgoing.size() >=6
+{
+	do {
+		instance.comments.add("New comment added");
+	}
+}
+//Done

@@ -1,0 +1,13 @@
+@action add
+@feature coordinates
+pattern mutation_1
+instance:Place
+guard: instance.outgoing.size()<=0
+{
+	do {
+		// adding incompatible value
+		var point:Real = 99.00;
+		instance.coordinates.add(point);
+	}
+}
+//Done

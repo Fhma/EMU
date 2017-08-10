@@ -1,0 +1,13 @@
+@action add
+@feature coordinates
+pattern mutation_2
+instance:Place
+guard: instance.fill_colour = "green"
+{
+	do {
+		// adding extra item to a full collection
+		var point:Integer = 99.00;
+		instance.coordinates.add(point);
+	}
+}
+//Done

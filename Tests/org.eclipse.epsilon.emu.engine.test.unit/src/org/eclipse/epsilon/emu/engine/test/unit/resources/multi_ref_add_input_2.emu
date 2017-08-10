@@ -1,0 +1,14 @@
+@action add
+@feature outgoing
+pattern mutation_2
+instance:Place
+guard: instance.radius >=5
+{
+	do {
+		var arc:Arc = PlaceToTransArc.createInstance();
+		arc.source = Place.all.random();
+		arc.target = Transition.all.random();
+		instance.outgoing.add(arc);
+	}
+}
+//Done

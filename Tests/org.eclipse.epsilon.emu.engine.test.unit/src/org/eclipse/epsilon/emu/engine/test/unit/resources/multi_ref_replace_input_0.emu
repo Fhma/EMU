@@ -1,0 +1,25 @@
+@action replace
+@feature places
+pattern mutation_0
+instance:PetriNet
+guard: PlaceToTransArc.all.select(a|a.source.fill_colour = "black").first().isDefined()
+{
+	do {
+		var arc = PlaceToTransArc.all.select(a|a.source.fill_colour = "black").first();
+		var newPlace = Place.createInstance();
+		newPlace.copyOver(arc.source);
+		instance.places.remove(arc.source);
+		instance.places.add(newPlace);
+	}
+}
+
+operation Place copyOver(target:Place)
+{
+	self.name = "new place";
+	self.radius = 3 + target.radius;
+	self.fill_colour = "black";
+	self.coordinates = target.coordinates;
+	self.incoming = target.incoming;
+	 target.outgoing.println();
+}
+//Done

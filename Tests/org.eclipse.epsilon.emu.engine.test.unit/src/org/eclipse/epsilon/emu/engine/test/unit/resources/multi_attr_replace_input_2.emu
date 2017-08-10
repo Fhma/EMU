@@ -1,0 +1,14 @@
+@action replace
+@feature start_end_coordinates
+pattern mutation_1
+instance:Rectangle
+guard: Transition.all.select(t| (t.incoming.size() + t.outgoing.size()) >= 4).includes(instance.belongs_to)
+{
+	do {
+		var newPoint:Integer = 999;
+		var item = instance.start_end_coordinates.random();
+		instance.start_end_coordinates.remove(item);
+		instance.start_end_coordinates.add(newPoint);
+	}
+}
+//Done

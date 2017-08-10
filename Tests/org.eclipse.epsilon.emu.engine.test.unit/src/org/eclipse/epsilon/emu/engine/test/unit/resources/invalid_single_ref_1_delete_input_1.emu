@@ -1,0 +1,12 @@
+@action delete
+@feature petrinet
+pattern mutation_1
+instance:Place
+guard: instance.name = "P6"
+{
+	do {
+		//delete required value
+		instance.petrinet = null;
+	}
+}
+//Done

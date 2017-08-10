@@ -1,0 +1,11 @@
+@action replace
+@feature weight
+pattern mutation_0
+instance:PlaceToTransArc
+guard: instance.source.name.equals("P100")
+{
+	do {
+		instance.weight = 333;
+	}
+}
+//Done

@@ -1,0 +1,6 @@
+@action delete
+@feature weight
+pattern mutation_1
+instance:PlaceToTransArc
+guard: instance.source.name.equals("P5")
+//Done

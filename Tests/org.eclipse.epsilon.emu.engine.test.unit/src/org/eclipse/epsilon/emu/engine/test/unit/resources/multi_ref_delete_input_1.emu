@@ -1,0 +1,12 @@
+@action delete
+@feature incoming
+pattern mutation_1
+instance:Place
+guard: instance.name = "P3"
+{
+	do {
+		var arc = instance.incoming.random();
+		instance.incoming.remove(arc);
+	}
+}
+//Done

@@ -1,0 +1,15 @@
+@action replace
+@feature rectangle
+pattern mutation_2
+instance:Transition
+guard: instance.outgoing.size()+instance.incoming.size()>=4
+{
+	do {
+		var rec = Rectangle.all.select(r|r.start_end_coordinates.includes(14)).random();
+		if(not rec.equals(instance.rectangle))
+		{	
+			instance.rectangle = rec;
+		}
+	}
+ }
+ //Done

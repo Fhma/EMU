@@ -1,0 +1,11 @@
+@action replace
+@feature radius
+pattern Place_replace_radius
+instance:Place from: Place.all, instance2:Transition from:Transition.all
+guard: instance.outgoing.size()>=2
+{
+	do {
+		// two roles found...
+	}
+}
+//Done

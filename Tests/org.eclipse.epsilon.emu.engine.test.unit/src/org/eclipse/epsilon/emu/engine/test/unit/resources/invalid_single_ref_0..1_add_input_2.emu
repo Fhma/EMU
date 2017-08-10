@@ -1,0 +1,15 @@
+@action add
+@feature rectangle
+pattern mutation_1
+instance:Transition
+guard: instance.name = "T0"
+{
+	do {
+		// assign a value or incompatible type or kind.
+		var arc = PlaceToTransArc.createInstance();
+		arc.source = Place.all.random();
+		arc.target = Transition.all.random();
+		instance.rectangle = arc;
+	}		
+}
+//Done

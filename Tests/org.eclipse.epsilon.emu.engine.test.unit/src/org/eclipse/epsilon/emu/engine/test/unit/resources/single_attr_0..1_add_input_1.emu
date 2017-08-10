@@ -1,0 +1,6 @@
+@action add
+@feature radius
+pattern mutation_1
+instance:Place
+guard: instance.outgoing.size()>=2
+//Done

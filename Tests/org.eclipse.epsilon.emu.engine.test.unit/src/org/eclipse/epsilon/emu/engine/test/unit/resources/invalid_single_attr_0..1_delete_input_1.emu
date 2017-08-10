@@ -1,0 +1,5 @@
+@action delete
+@feature fill_colour
+pattern mutation_1
+instance:Place
+guard: instance.incoming.size() = 0

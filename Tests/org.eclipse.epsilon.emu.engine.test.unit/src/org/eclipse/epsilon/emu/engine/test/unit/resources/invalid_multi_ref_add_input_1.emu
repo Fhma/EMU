@@ -1,0 +1,12 @@
+@action add
+@feature outgoing
+pattern mutation_1
+instance:Place
+guard: instance.radius >=6
+{
+	do {
+		// add invalid item to a collection
+		instance.outgoing.add(null);
+	}
+}
+//Done

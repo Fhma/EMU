@@ -1,0 +1,12 @@
+@action replace
+@feature rectangle
+pattern mutation_1
+instance:Transition
+guard: instance.name = "T0"
+{
+	do {
+		//replace with undefined value
+		instance.rectangle = null;
+	}
+}
+//Done

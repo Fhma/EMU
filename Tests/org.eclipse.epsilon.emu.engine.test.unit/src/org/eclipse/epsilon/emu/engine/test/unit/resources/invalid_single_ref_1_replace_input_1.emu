@@ -1,0 +1,12 @@
+@action replace
+@feature source
+pattern mutation_1
+instance:PlaceToTransArc
+guard: instance.source.name.equals("P1") and instance.target.name.equals("T1")
+{
+	do {
+		//replace a required value with null
+		instance.source = null;	
+	}
+}
+//Done

@@ -1,0 +1,13 @@
+@action replace
+@feature radius
+pattern mutation_2
+instance:Place
+guard: instance.outgoing.size()>=2
+{
+	do {
+		var newRadius:Integer = 1;
+		// replace with same value
+		instance.radius = newRadius;
+	}
+}
+//Done

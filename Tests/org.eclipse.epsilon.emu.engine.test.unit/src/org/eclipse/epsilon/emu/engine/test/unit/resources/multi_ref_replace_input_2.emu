@@ -1,0 +1,17 @@
+@action replace
+@feature outgoing
+pattern mutation_2
+instance:Place
+guard: instance.outgoing.size() + instance.incoming.size() >=3
+{
+	do {
+		var arc = PlaceToTransArc.all.select(a|a.source = instance).asSequence().random();
+		var newArc = PlaceToTransArc.createInstance();
+		newArc.source = instance;
+		newArc.weight = 222;
+		newArc.target = Transition.all.select(t| t.name <> arc.target).random();
+		instance.outgoing.remove(arc);
+		instance.outgoing.add(newArc);		
+	}
+}
+//Done

@@ -1,0 +1,12 @@
+@action delete
+@feature coordinates
+pattern mutation_1
+instance:Place
+guard: instance.incoming.isEmpty()
+{
+	do {
+		var item = instance.coordinates.random();
+		instance.coordinates.remove(item);
+	}
+}
+//Done

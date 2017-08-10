@@ -1,0 +1,13 @@
+@action replace
+@feature source
+pattern mutation_1
+instance:PlaceToTransArc
+guard: instance.source.name.equals("P1") and instance.target.name.equals("T1")
+{
+	do {
+		var newPlace=Place.createInstance();
+		newPlace.name="new place";
+		instance.source = newPlace;	
+	}
+}
+//Done

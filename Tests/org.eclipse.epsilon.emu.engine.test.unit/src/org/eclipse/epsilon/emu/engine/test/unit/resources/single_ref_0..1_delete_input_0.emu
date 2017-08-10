@@ -1,0 +1,11 @@
+@action delete
+@feature rectangle
+pattern mutation_0
+instance:Transition
+guard: instance.outgoing.size()>=5
+{
+	do {
+		instance.rectangle = null;
+	}
+}
+//Done

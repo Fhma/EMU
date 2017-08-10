@@ -1,0 +1,11 @@
+@action add
+@feature coordinates
+pattern mutation_1
+instance:Place
+guard: instance.name.equals("P3")
+{
+	do {
+		instance.coordinates.add(99);
+	}
+}
+//Done

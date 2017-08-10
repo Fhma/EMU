@@ -1,0 +1,7 @@
+@action replace
+@feature radius
+pattern mutation_1
+instance:Place
+guard: instance.outgoing.size()>=2
+// replace with no do block
+//Done
