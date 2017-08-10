@@ -3,8 +3,6 @@
 
 .mtj.tmp/
 .metadata
-.project
-.settings
 
 .DS
 *.jar
