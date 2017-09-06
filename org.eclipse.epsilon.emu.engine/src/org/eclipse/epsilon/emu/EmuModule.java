@@ -6,20 +6,23 @@
  */
 package org.eclipse.epsilon.emu;
 
+import java.io.File;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
+import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emu.execute.EmuPatternMatcher;
-import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
+import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.dom.Domain;
 import org.eclipse.epsilon.epl.dom.Pattern;
 import org.eclipse.epsilon.epl.dom.Role;
 import org.eclipse.epsilon.epl.parse.EplParser;
+import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 
 public class EmuModule extends EplModule {
 
@@ -41,13 +44,12 @@ public class EmuModule extends EplModule {
 	}
 
 	@Override
-	public Object executeImpl() throws EolRuntimeException, RuntimeException {
+	public Object execute() throws EolRuntimeException {
 		execute(getPre(), context);
 		EmuPatternMatcher patternMatcher = new EmuPatternMatcher();
 		try {
 			patternMatcher.match(this);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			EolRuntimeException.propagate(ex);
 		}
 		execute(getPost(), context);
@@ -58,5 +60,39 @@ public class EmuModule extends EplModule {
 		if (mutationMatrix == null)
 			mutationMatrix = new HashMap<String, List<String>>();
 		return mutationMatrix;
+	}
+
+	@Override
+	public IEolContext getContext() {
+		return super.getContext();
+	}
+
+	@Override
+	public boolean parse(File file) throws Exception {
+		// TODO Auto-generated method stub
+		return super.parse(file);
+	}
+
+	@Override
+	public boolean parse(String code, File file) throws Exception {
+		// TODO Auto-generated method stub
+		return super.parse(code, file);
+	}
+
+	@Override
+	public boolean parse(String code) throws Exception {
+		// TODO Auto-generated method stub
+		return super.parse(code);
+	}
+
+	@Override
+	public boolean parse(URI uri) throws Exception {
+		// TODO Auto-generated method stub
+		return super.parse(uri);
+	}
+
+	@Override
+	public List<ParseProblem> getParseProblems() {
+		return super.getParseProblems();
 	}
 }

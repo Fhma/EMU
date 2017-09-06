@@ -1,0 +1,2 @@
+#ATL Models Mutation using EMU
+This project contains two EMU mutation programs performed against [Book2Publication](http://www.eclipse.org/atl/atlTransformations/#Book2Publication) ATL model transformation example.

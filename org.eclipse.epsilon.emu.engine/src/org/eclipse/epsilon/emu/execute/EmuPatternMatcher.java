@@ -108,7 +108,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 						boolean terminate = false;
 
 						try {
-							context.getExecutorFactory().execute(do_, context);
+							context.getExecutorFactory().executeAST(do_, context);
 						} catch (Exception e) {
 							terminate = true;
 							if (debug)

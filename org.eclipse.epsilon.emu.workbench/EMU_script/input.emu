@@ -27,7 +27,6 @@ instance:PetriNet
 						a.target = newPlace;
 			}
 		}
-		
 		instance.places.remove(place);
 		instance.places.add(newPlace);
 	}

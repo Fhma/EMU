@@ -3,12 +3,60 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="src" path="/org.eclipse.epsilon.common"/>
-	<classpathentry kind="src" path="/org.eclipse.epsilon.emc.emf"/>
 	<classpathentry kind="src" path="/org.eclipse.epsilon.emu.engine"/>
-	<classpathentry kind="src" path="/org.eclipse.epsilon.eol.engine"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.epsilon.epl.engine"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.epsilon.erl.engine"/>
+	<classpathentry kind="lib" path="/Applications/Eclipse-pure.app/Contents/Eclipse/plugins/org.eclipse.epsilon.eol.engine_1.4.0.201611012202.jar" sourcepath="/Applications/Eclipse-pure.app/Contents/Eclipse/plugins/org.eclipse.epsilon.eol.engine_1.4.0.201611012202.jar">
+		<accessrules>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/compile/context/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/compile/m3/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/dom/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/exceptions/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/exceptions/flowcontrol/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/exceptions/models/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/context/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/control/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/introspection/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/introspection/java/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/introspection/recording/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/operations/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/operations/contributors/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/operations/contributors/compatibility/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/operations/declarative/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/operations/simple/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/operations/simple/assertions/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/execute/prettyprinting/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/models/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/models/java/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/models/transactions/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/parse/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/tools/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/types/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/userinput/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/eol/util/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Applications/Eclipse-pure.app/Contents/Eclipse/plugins/org.eclipse.epsilon.emc.emf_1.4.0.201611012202.jar" sourcepath="/Applications/Eclipse-pure.app/Contents/Eclipse/plugins/org.eclipse.epsilon.emc.emf_1.4.0.201611012202.jar">
+		<accessrules>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/emc/emf/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/emc/emf/m0/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/emc/emf/tools/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/emc/emf/transactions/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/emc/emf/util/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/emc/emf/xml/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Applications/Eclipse-pure.app/Contents/Eclipse/plugins/org.eclipse.epsilon.common_1.4.0.201611012202.jar" sourcepath="/Applications/Eclipse-pure.app/Contents/Eclipse/plugins/org.eclipse.epsilon.common_1.4.0.201611012202.jar">
+		<accessrules>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/common/module/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/common/parse/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/common/parse/problem/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/epsilon/common/util/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="lib" path="/Applications/Eclipse-pure.app/Contents/Eclipse/plugins/org.eclipse.emf.ecore_2.12.0.v20160420-0247.jar" sourcepath="/Applications/Eclipse-pure.app/Contents/Eclipse/plugins/org.eclipse.emf.ecore.source_2.12.0.v20160420-0247.jar">
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/emf/ecore/*"/>
@@ -27,5 +75,6 @@
 			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.epsilon.emu.emf"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
