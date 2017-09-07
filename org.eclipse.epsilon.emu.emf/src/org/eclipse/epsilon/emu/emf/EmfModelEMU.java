@@ -15,6 +15,10 @@ import org.eclipse.epsilon.eol.exceptions.models.EolNotInstantiableModelElementT
 
 public class EmfModelEMU extends EmfModel {
 	
+	public EmfModelEMU() {
+		super();
+	}
+	
 	@Override
 	public boolean store() {
 		if (modelImpl == null) return false;
