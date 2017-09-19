@@ -11,7 +11,9 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -46,6 +48,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 
 	protected static final String MUTATION_ACTION_ANNOTATION = "action";
 	protected static final String FEATURE_ANNOTATION = "feature";
+	protected static final String TYPE_ANNOTATION = "type";
 
 	protected IModel modelThatOwnsMatching = null;
 	private IMutationGenerator mutationGeneratorImpl = null;
@@ -156,35 +159,72 @@ public class EmuPatternMatcher extends PatternMatcher {
 	}
 
 	private Tuple prepareForMutation(EmuModule module, PatternMatch match, IEolContext context) throws Exception {
-		Set<String> key = match.getRoleBindings().keySet();
-		if (key.size() != 1)
-			throw new IllegalArgumentException("Only one role is allowed per mutation.");
 
+		// check which role has the target instance and type
+		// EObject targetEObject = null;
 		String instanceName = null;
-		for (String s : key)
-			instanceName = s;
+		Object roleBinding = null;
+		EClass targetType = null;
+		Set<Map.Entry<String, Object>> RoleBindingSet = match.getRoleBindings().entrySet();
+		int counter = 0;
 
-		Object roleBinding = match.getRoleBinding(instanceName);
-		String propertyName = getAnnotationValue(match.getPattern(), FEATURE_ANNOTATION, context);
-
-		EObject eObj = null;
-		EClass eClass = null;
-
-		if (roleBinding instanceof EObject)
+		if (RoleBindingSet.size() > 1)
 		{
-			eObj = (EObject) roleBinding;
-			if (eObj.eClass() instanceof EClass)
-				eClass = (EClass) eObj.eClass();
+			Iterator it = RoleBindingSet.iterator();
+			while (it.hasNext())
+			{
+				Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
+				if (pair.getValue() instanceof EObject)
+				{
+					EObject eObj = (EObject) pair.getValue();
+					if (eObj.eClass() instanceof EClass)
+					{
+						EClass eClass = (EClass) eObj.eClass();
+						if (eClass.getName().equals(getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context)))
+						{
+							// found the target type and only allowing one matching role for that
+							// type
+							counter++;
+							targetType = eClass;
+							instanceName = pair.getKey();
+							roleBinding = pair.getValue();
+							// targetEObject = eObj;
+						}
+					}
+				}
+			}
+		} else
+		{
+			Set<String> key = match.getRoleBindings().keySet();
+			for (String s : key)
+				instanceName = s;
+			counter = 1;
+			roleBinding = match.getRoleBinding(instanceName);
+			if (roleBinding instanceof EObject)
+			{
+				roleBinding = (EObject) roleBinding;
+				if (((EObject) roleBinding).eClass() instanceof EClass)
+					targetType = (EClass) ((EObject) roleBinding).eClass();
+			}
 		}
-		if (eClass == null)
+
+		if (counter == 0)
+			throw new IllegalArgumentException(
+					"Unable to find a target type [" + getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context) + "] within the matching roles.");
+		if (counter > 1)
+			throw new IllegalArgumentException("Found multiple roles for the given type [" + getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context) + "].");
+
+		if (targetType == null)
 			throw new IllegalArgumentException("Unrecognizable Object " + roleBinding);
 
+		String propertyName = getAnnotationValue(match.getPattern(), FEATURE_ANNOTATION, context);
+
 		setModelThatOwnsMatching(roleBinding, context);
-		EStructuralFeature feature = EmfUtil.getEStructuralFeature(eClass, propertyName);
+		EStructuralFeature feature = EmfUtil.getEStructuralFeature(targetType, propertyName);
 
-		Object feature_value = eObj.eGet(feature);
+		Object feature_value = ((EObject) roleBinding).eGet(feature);
 
-		return new Tuple(roleBinding, instanceName, eClass, feature, feature_value);
+		return new Tuple(roleBinding, instanceName, targetType, feature, feature_value);
 	}
 
 	private ExecutableBlock<Void> getDoBlock(Tuple values, EmuModule module, PatternMatch match, IEolContext context) throws Exception {
