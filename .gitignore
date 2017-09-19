@@ -3,6 +3,8 @@
 .mtj.tmp/
 .metadata
 
+bin/
+
 .DS
 *.jar
 *.war

@@ -124,7 +124,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 						{
 							context.getModelRepository().getTransactionSupport().rollbackTransaction();
 							context.getFrameStack().leaveLocal(do_);
-							System.out.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in [" + module.getSourceFile() + "]");
+							System.err.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in [" + module.getSourceFile() + "]");
 							continue;
 						} catch (Exception e)
 						{
@@ -151,7 +151,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 						context.getFrameStack().leaveLocal(do_);
 					}
 					if (valid_mutant == null || (valid_mutant != null && !valid_mutant.equals(IMutationGenerator.VALID)))
-						System.out.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in [" + module.getSourceFile() + "]");
+						System.err.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in [" + module.getSourceFile() + "]");
 				}
 			}
 		}
@@ -161,7 +161,6 @@ public class EmuPatternMatcher extends PatternMatcher {
 	private Tuple prepareForMutation(EmuModule module, PatternMatch match, IEolContext context) throws Exception {
 
 		// check which role has the target instance and type
-		// EObject targetEObject = null;
 		String instanceName = null;
 		Object roleBinding = null;
 		EClass targetType = null;
@@ -170,10 +169,10 @@ public class EmuPatternMatcher extends PatternMatcher {
 
 		if (RoleBindingSet.size() > 1)
 		{
-			Iterator it = RoleBindingSet.iterator();
+			Iterator<Map.Entry<String, Object>> it = RoleBindingSet.iterator();
 			while (it.hasNext())
 			{
-				Map.Entry<String, Object> pair = (Map.Entry<String, Object>) it.next();
+				Map.Entry<String, Object> pair = it.next();
 				if (pair.getValue() instanceof EObject)
 				{
 					EObject eObj = (EObject) pair.getValue();
@@ -182,13 +181,11 @@ public class EmuPatternMatcher extends PatternMatcher {
 						EClass eClass = (EClass) eObj.eClass();
 						if (eClass.getName().equals(getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context)))
 						{
-							// found the target type and only allowing one matching role for that
-							// type
+							// found target type and only allowing one matching role for that type
 							counter++;
 							targetType = eClass;
 							instanceName = pair.getKey();
 							roleBinding = pair.getValue();
-							// targetEObject = eObj;
 						}
 					}
 				}
