@@ -10,7 +10,6 @@ import java.io.File;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
 import org.eclipse.epsilon.common.parse.problem.ParseProblem;
@@ -26,7 +25,7 @@ import org.eclipse.epsilon.eol.dom.ExecutableBlock;
 
 public class EmuModule extends EplModule {
 
-	protected Map<String, List<String>> mutationMatrix;
+	protected HashMap<String, Integer> mutationsIndexer;
 
 	@Override
 	public ModuleElement adapt(AST cst, ModuleElement parentAst) {
@@ -47,19 +46,21 @@ public class EmuModule extends EplModule {
 	public Object execute() throws EolRuntimeException {
 		execute(getPre(), context);
 		EmuPatternMatcher patternMatcher = new EmuPatternMatcher();
-		try {
+		try
+		{
 			patternMatcher.match(this);
-		} catch (Exception ex) {
+		} catch (Exception ex)
+		{
 			EolRuntimeException.propagate(ex);
 		}
 		execute(getPost(), context);
 		return patternMatcher;
 	}
 
-	public Map<String, List<String>> getMutationMatrix() {
-		if (mutationMatrix == null)
-			mutationMatrix = new HashMap<String, List<String>>();
-		return mutationMatrix;
+	public HashMap<String, Integer> getMutationsIndexer() {
+		if (mutationsIndexer == null)
+			mutationsIndexer = new HashMap<String, Integer>();
+		return mutationsIndexer;
 	}
 
 	@Override
@@ -69,30 +70,31 @@ public class EmuModule extends EplModule {
 
 	@Override
 	public boolean parse(File file) throws Exception {
-		// TODO Auto-generated method stub
 		return super.parse(file);
 	}
 
 	@Override
 	public boolean parse(String code, File file) throws Exception {
-		// TODO Auto-generated method stub
 		return super.parse(code, file);
 	}
 
 	@Override
 	public boolean parse(String code) throws Exception {
-		// TODO Auto-generated method stub
 		return super.parse(code);
 	}
 
 	@Override
 	public boolean parse(URI uri) throws Exception {
-		// TODO Auto-generated method stub
 		return super.parse(uri);
 	}
 
 	@Override
 	public List<ParseProblem> getParseProblems() {
 		return super.getParseProblems();
+	}
+
+	@Override
+	public boolean isRepeatWhileMatches() {
+		return false;
 	}
 }

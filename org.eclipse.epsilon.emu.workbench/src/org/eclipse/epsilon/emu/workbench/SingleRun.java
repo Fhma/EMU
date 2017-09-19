@@ -27,8 +27,13 @@ public class SingleRun {
 	public void run() {
 
 		String sourceFile = "EMU_script/input.emu";
-		String modelString = SingleRun.class.getResource("resources/petrinet_example_1.xmi").getPath();
-		String metamodel = SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
+		//Petrinet example
+		//String modelString = SingleRun.class.getResource("resources/petrinet_example_1.xmi").getPath();
+		//String metamodel = SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
+		
+		// atl example
+		String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
+		String metamodel = SingleRun.class.getResource("resources/ATL.ecore").getPath();
 
 		
 		EmuModule module = new EmuModule();

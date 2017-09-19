@@ -6,36 +6,8 @@ guard: PlaceToTransArc.all.select(a|a.source.fill_colour = "blue").first().isDef
 {
 	do {
 		var place = Place.all.select(a|a.fill_colour = "blue").first();
-		var newPlace = Place.createInstance();
-		newPlace.copyOver(place);
-		for(a in Arc.all)
-		{
-			if(a.isTypeOf(PlaceToTransArc))
-			{
-				if(a.source = place)
-				{
-					a.source = newPlace;
-				}
-			}
-			if (a.isTypeOf(TransToPlaceArc))
-			{
-					if(a.target = place)
-						a.target = newPlace;
-			}
-		}
-		
-		// replace with same value
 		instance.places.remove(place);
 		instance.places.add(place);
 	}
 	
 }
-
-operation Place copyOver(target:Place)
-{
-	self.name = "new place";
-	self.radius = 3 + target.radius;
-	self.fill_colour = "black";
-	self.coordinates = target.coordinates;
-}
-//Done
