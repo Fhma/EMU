@@ -1,12 +1,24 @@
-//4) InPatternElement Class Change: OCL.VariableDeclaration_type_replacement
+//10) Filter Condition Change: inPattern_filter_replacement
 @action replace
-@feature type
-@type SimpleInPatternElement
-pattern mutation_operator_4
-target_instance:SimpleInPatternElement,
-possible_type:OclModelElement from: OclModelElement.all.select(e| e.name <> target_instance.type.name )
+@feature filter
+pattern mutation_operator_10
+instance:InPattern
+//fiter only for operatorCallExp
+guard: instance.filter.isTypeOf(OperatorCallExp)
 {
 	do {
-		target_instance.type = possible_type;
+		// applicable only for operatorCallExp
+		var new_filter = OperatorCallExp.createInstance();
+		var operators = Sequence{">",">=","<","<=","=", "<>"};
+		var old_opr = instance.filter.operationName;
+		var selected = operators.random();
+		while(selected = old_opr)
+		{
+			selected = operators.random();
+		}
+		new_filter.operationName = selected;
+		new_filter.source = instance.filter.source;
+		new_filter.arguments.addAll(instance.filter.arguments.clone()); 
+		instance.filter = new_filter;	
 	}
 }
