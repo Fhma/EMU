@@ -70,7 +70,8 @@ public abstract class AMOReal {
 				if (valueNew == null)
 					throw new IllegalArgumentException("The mutated real value must be defined: " + valueNew);
 				if (valueNew == value)
-					throw new IllegalArgumentException("The original real value and the new value must not be equal: " + valueNew);
+					throw new IllegalArgumentException(
+							"The original real value and the new value must not be equal: " + valueNew);
 				return IMutationGenerator.VALID;
 			}
 			return IMutationGenerator.INVALID;
@@ -85,7 +86,8 @@ public abstract class AMOReal {
 				if (valueNew == null)
 					throw new IllegalArgumentException("The mutated real value must be defined: " + valueNew);
 				if (valueNew == value)
-					throw new IllegalArgumentException("The original real value and the new value must not be equal: " + valueNew);
+					throw new IllegalArgumentException(
+							"The original real value and the new value must not be equal: " + valueNew);
 				return IMutationGenerator.VALID;
 			}
 			return IMutationGenerator.INVALID;
@@ -97,7 +99,11 @@ public abstract class AMOReal {
 		Object instanceClass = feature.getEType().getInstanceClass();
 		if (instanceClass.equals(Float.class) || instanceClass.equals(float.class)) {
 			if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
-				if (value == valueNew)
+				if (value != null && value.equals(valueNew))
+					return IMutationGenerator.INVALID;
+				if (valueNew != null && valueNew.equals(value))
+					return IMutationGenerator.INVALID;
+				if (valueNew == value)
 					return IMutationGenerator.INVALID;
 				return IMutationGenerator.VALID;
 			}

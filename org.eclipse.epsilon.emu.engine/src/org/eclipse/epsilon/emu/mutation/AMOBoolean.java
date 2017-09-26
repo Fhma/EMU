@@ -72,7 +72,7 @@ public abstract class AMOBoolean {
 			if (checkAdditionConditions(feature, value).equals(IMutationGenerator.VALID)) {
 				if (newValue == null)
 					return IMutationGenerator.INVALID;
-				if (newValue == value)
+				if (newValue.equals(value))
 					return IMutationGenerator.INVALID;
 				return IMutationGenerator.VALID;
 			}
@@ -100,8 +100,9 @@ public abstract class AMOBoolean {
 			if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
 				if (newValue == null)
 					throw new IllegalArgumentException("The mutated Object value must be defined: " + newValue);
-				if (value == newValue)
-					throw new IllegalArgumentException("The original Object value and mutated Object value must be different: " + value);
+				if (newValue.equals(value))
+					throw new IllegalArgumentException(
+							"The original Object value and mutated Object value must be different: " + value);
 				return IMutationGenerator.VALID;
 			}
 			return IMutationGenerator.INVALID;

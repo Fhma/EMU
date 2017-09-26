@@ -123,7 +123,7 @@ public abstract class AMOString {
 			if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
 				if (valueNew == null)
 					return IMutationGenerator.INVALID;
-				if (valueNew == value)
+				if (valueNew.equals(value))
 					return IMutationGenerator.INVALID;
 				String s = (String) valueNew;
 				if (feature.getLowerBound() == 1 && s.length() <= 0)

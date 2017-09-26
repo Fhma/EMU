@@ -59,20 +59,20 @@ public class EmuModule extends EplModule {
 
 	public OMatrix getOperatorsMatrix() {
 		if (operatorsMatrix == null)
-			operatorsMatrix = new OMatrix(getMutantsDir().getAbsolutePath() + "/" + getMutantsDir().getName());
+			operatorsMatrix = new OMatrix(getMutantsDir().getAbsolutePath() + File.separatorChar + getMutantsDir().getName());
 		return operatorsMatrix;
 	}
 
 	public File getMutantsDir() {
 		if (mutants_dir == null) {
-			File source_file = this.getSourceFile();
-			if (source_file != null) {
-				String path = source_file.getAbsolutePath();
+			File src = this.getSourceFile();
+			if (src != null) {
+				String path = src.getAbsolutePath();
 				path = path.substring(0, path.length() - 4);
-				mutants_dir = new File(path + "_mutants/");
+				mutants_dir = new File(path + "_mutants" + File.separatorChar);
+				mutants_dir.mkdir();
 			} else
-				mutants_dir = new File("mutations/");
-			mutants_dir.mkdir();
+				throw new IllegalArgumentException("Unable to get EMU source file.");
 		}
 		return mutants_dir;
 	}
@@ -80,7 +80,7 @@ public class EmuModule extends EplModule {
 	public void saveOperatorsMatrix() throws IOException {
 		getOperatorsMatrix().saveMatrix();
 	}
-	
+
 	@Override
 	public IEolContext getContext() {
 		return super.getContext();

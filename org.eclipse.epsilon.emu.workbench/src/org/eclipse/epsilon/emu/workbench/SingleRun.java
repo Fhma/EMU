@@ -10,11 +10,17 @@ import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 
 import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.eclipse.epsilon.emu.emf.EmfModelEMU;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emu.EmuModule;
@@ -27,15 +33,14 @@ public class SingleRun {
 	public void run() {
 
 		String sourceFile = "EMU_script/input.emu";
-		//Petrinet example
-		//String modelString = SingleRun.class.getResource("resources/petrinet_example_1.xmi").getPath();
-		//String metamodel = SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
-		
+		// Petrinet example
+		// String modelString = SingleRun.class.getResource("resources/petrinet_example_1.xmi").getPath();
+		// String metamodel = SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
+
 		// atl example
 		String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
 		String metamodel = SingleRun.class.getResource("resources/ATL.ecore").getPath();
 
-		
 		EmuModule module = new EmuModule();
 
 		try {
@@ -48,6 +53,7 @@ public class SingleRun {
 			module.getContext().getModelRepository().addModel(model);
 			module.execute();
 			module.getContext().getModelRepository().dispose();
+			toJson(module);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,5 +69,23 @@ public class SingleRun {
 		properties.put(EmfModel.PROPERTY_STOREONDISPOSAL, storeOnDisposal + "");
 		emfModel.load(properties, (IRelativePathResolver) null);
 		return emfModel;
+	}
+
+	private static void toJson(EmuModule module) throws IOException {
+		if (module.getOperatorsMatrix().getContent() == null)
+			return;
+		JSONObject json = new JSONObject();
+		Iterator<Map.Entry<String, List<String>>> it = module.getOperatorsMatrix().getContent().entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, List<String>> pair = it.next();
+			List<String> values = pair.getValue();
+			JSONArray list = new JSONArray();
+			list.put(values);
+			json.put(pair.getKey(), list);
+		}
+
+		try (FileWriter file = new FileWriter(module.getMutantsDir() + "/" + module.getMutantsDir().getName() + "_summary.json")) {
+			file.write(json.toString(4));
+		}
 	}
 }

@@ -1,24 +1,22 @@
-//10) Filter Condition Change: inPattern_filter_replacement
+//13) Binding Feature Change: Binding_propertyName_replace
 @action replace
-@feature filter
-pattern mutation_operator_10
-instance:InPattern
-//fiter only for operatorCallExp
-guard: instance.filter.isTypeOf(OperatorCallExp)
+@feature propertyName
+pattern mutation_operator_13_case_1
+instance:Binding
 {
 	do {
-		// applicable only for operatorCallExp
-		var new_filter = OperatorCallExp.createInstance();
-		var operators = Sequence{">",">=","<","<=","=", "<>"};
-		var old_opr = instance.filter.operationName;
-		var selected = operators.random();
-		while(selected = old_opr)
-		{
-			selected = operators.random();
-		}
-		new_filter.operationName = selected;
-		new_filter.source = instance.filter.source;
-		new_filter.arguments.addAll(instance.filter.arguments.clone()); 
-		instance.filter = new_filter;	
+		instance.propertyName = instance.propertyName.firstToUpperCase();
+	}
+}
+
+@action replace
+@feature propertyName
+@type Binding
+pattern mutation_operator_13_case_2
+instance1:Binding,
+otherbindings:Binding from: Binding.all.select(e|e <> instance1)
+{
+	do {
+		instance1.propertyName = otherbindings.propertyName;
 	}
 }

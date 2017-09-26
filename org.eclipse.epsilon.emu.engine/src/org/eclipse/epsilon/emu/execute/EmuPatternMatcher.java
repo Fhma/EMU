@@ -84,17 +84,16 @@ public class EmuPatternMatcher extends PatternMatcher {
 
 			for (PatternMatch match : model.getMatches()) {
 				if (match.getPattern().getLevel() == level) {
+
 					Object valid_mutant = null;
 					values = prepareForMutation(module, match, context);
-					String mutation_action = getAnnotationValue(match.getPattern(), MUTATION_ACTION_ANNOTATION,
-							context);
+					String mutation_action = getAnnotationValue(match.getPattern(), MUTATION_ACTION_ANNOTATION, context);
 
 					ExecutableBlock<Void> do_ = getDoBlock(values, module, match, context);
 					if (do_ != null) {
 						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, do_);
 						for (String componentName : match.getRoleBindings().keySet()) {
-							context.getFrameStack().put(Variable.createReadOnlyVariable(componentName,
-									match.getRoleBinding(componentName)));
+							context.getFrameStack().put(Variable.createReadOnlyVariable(componentName, match.getRoleBinding(componentName)));
 						}
 						context.getModelRepository().getTransactionSupport().startTransaction();
 
@@ -103,34 +102,27 @@ public class EmuPatternMatcher extends PatternMatcher {
 						} catch (EolInternalException e) {
 							context.getModelRepository().getTransactionSupport().rollbackTransaction();
 							context.getFrameStack().leaveLocal(do_);
-							System.err.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in ["
-									+ module.getSourceFile() + "]");
+							System.err.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in [" + module.getSourceFile() + "]");
 							continue;
 						} catch (Exception e) {
 							throw new Exception(e);
 						}
 
-						Object newValue = getModelThatOwnsMatching().getPropertyGetter().invoke(values.getRoleBinding(),
-								values.getFeature().getName());
-						valid_mutant = getMutationGenerator().checkConditions(values.getFeature(), values.getValue(),
-								newValue, mutation_action);
+						Object newValue = getModelThatOwnsMatching().getPropertyGetter().invoke(values.getRoleBinding(), values.getFeature().getName());
+						valid_mutant = getMutationGenerator().checkConditions(values.getFeature(), values.getValue(), newValue, mutation_action);
 
 						if (valid_mutant == IMutationGenerator.VALID) {
-							String operatorName = values.getType().getName() + "_" + values.getFeature().getName() + "_"
-									+ getAnnotationValue(match.getPattern(), MUTATION_ACTION_ANNOTATION, context);
-
+							String operatorName = values.getType().getName() + "_" + values.getFeature().getName() + "_" + getAnnotationValue(match.getPattern(), MUTATION_ACTION_ANNOTATION, context);
 							index = module.getOperatorsMatrix().getValue(operatorName).size() + 1;
-							String mutant = location + operatorName + "_" + index + ".xmi";
+							String mutant = location + "FID" + module.getSourceFile().hashCode() + "_" + operatorName + "_" + index + ".xmi";
 							module.getOperatorsMatrix().getContent().get(operatorName).add(mutant);
 							getModelThatOwnsMatching().store(mutant);
 						}
 						context.getModelRepository().getTransactionSupport().rollbackTransaction();
 						context.getFrameStack().leaveLocal(do_);
 					}
-					if (valid_mutant == null
-							|| (valid_mutant != null && !valid_mutant.equals(IMutationGenerator.VALID)))
-						System.err.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in ["
-								+ module.getSourceFile() + "]");
+					if (valid_mutant == null || (valid_mutant != null && !valid_mutant.equals(IMutationGenerator.VALID)))
+						System.err.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in [" + module.getSourceFile() + "]");
 				}
 			}
 		}
@@ -144,11 +136,10 @@ public class EmuPatternMatcher extends PatternMatcher {
 		Object roleBinding = null;
 		EClass targetType = null;
 		Set<Map.Entry<String, Object>> RoleBindingSet = match.getRoleBindings().entrySet();
-		int counter = 0;
-
+		boolean found = false;
 		if (RoleBindingSet.size() > 1) {
 			Iterator<Map.Entry<String, Object>> it = RoleBindingSet.iterator();
-			while (it.hasNext()) {
+			while (it.hasNext() && !found) {
 				Map.Entry<String, Object> pair = it.next();
 				if (pair.getValue() instanceof EObject) {
 					EObject eObj = (EObject) pair.getValue();
@@ -157,10 +148,10 @@ public class EmuPatternMatcher extends PatternMatcher {
 						if (eClass.getName().equals(getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context))) {
 							// found target type and only allowing one matching
 							// role for that type
-							counter++;
 							targetType = eClass;
 							instanceName = pair.getKey();
 							roleBinding = pair.getValue();
+							found = true;
 						}
 					}
 				}
@@ -169,22 +160,18 @@ public class EmuPatternMatcher extends PatternMatcher {
 			Set<String> key = match.getRoleBindings().keySet();
 			for (String s : key)
 				instanceName = s;
-			counter = 1;
 			roleBinding = match.getRoleBinding(instanceName);
 			if (roleBinding instanceof EObject) {
 				roleBinding = (EObject) roleBinding;
-				if (((EObject) roleBinding).eClass() instanceof EClass)
+				if (((EObject) roleBinding).eClass() instanceof EClass) {
 					targetType = (EClass) ((EObject) roleBinding).eClass();
+					found = true;
+				}
 			}
 		}
 
-		if (counter == 0)
-			throw new IllegalArgumentException(
-					"Unable to find a target type [" + getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context)
-							+ "] within the matching roles.");
-		if (counter > 1)
-			throw new IllegalArgumentException("Found multiple roles for the given type ["
-					+ getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context) + "].");
+		if (!found)
+			throw new IllegalArgumentException("Unable to find a target type [" + getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context) + "] within the matching roles.");
 
 		if (targetType == null)
 			throw new IllegalArgumentException("Unrecognizable Object " + roleBinding);
@@ -199,8 +186,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 		return new Tuple(roleBinding, instanceName, targetType, feature, feature_value);
 	}
 
-	private ExecutableBlock<Void> getDoBlock(Tuple values, EmuModule module, PatternMatch match, IEolContext context)
-			throws Exception {
+	private ExecutableBlock<Void> getDoBlock(Tuple values, EmuModule module, PatternMatch match, IEolContext context) throws Exception {
 		String propertyName = values.getFeature().getName();
 		String mutation_action;
 
@@ -209,8 +195,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 		Object newValue = null;
 		StatementBlock statBlock = null;
 
-		newValue = getMutationGenerator().mutate(values.getRoleBinding(), values.getFeature(), values.getValue(),
-				module, mutation_action);
+		newValue = getMutationGenerator().mutate(values.getRoleBinding(), values.getFeature(), values.getValue(), module, mutation_action);
 		if (newValue != null && newValue.equals(IMutationGenerator.NOTIMPLEMENTED))
 			return match.getPattern().getDo();
 		else if (newValue != null && newValue.equals(IMutationGenerator.INVALID))
@@ -254,8 +239,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 		return exeBlock;
 	}
 
-	private StatementBlock generateStatement(String instanceName, String propertyName, Expression newValue,
-			PatternMatch match, EmuModule module) {
+	private StatementBlock generateStatement(String instanceName, String propertyName, Expression newValue, PatternMatch match, EmuModule module) {
 		NameExpression targetExp = new NameExpression(instanceName);
 		targetExp.setTypeName(false);
 		targetExp.setModule(module);
@@ -333,8 +317,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 					throw new Exception(e.getMessage());
 				}
 		}
-		throw new Exception(
-				"Unable to find the value of annotation [" + name + "] in pattern [" + pattern.getName() + "]");
+		throw new Exception("Unable to find the value of annotation [" + name + "] in pattern [" + pattern.getName() + "]");
 	}
 
 	private class Tuple {
@@ -348,11 +331,9 @@ public class EmuPatternMatcher extends PatternMatcher {
 		 * Generate a tuple of values that are used for mutation
 		 * 
 		 * @param binding:
-		 *            the binding role of the pattern in which this mutation is
-		 *            based on
+		 *            the binding role of the pattern in which this mutation is based on
 		 * @param instanceName
-		 *            the instance name specified in the matching role of the
-		 *            pattern
+		 *            the instance name specified in the matching role of the pattern
 		 * @param type
 		 *            the meta-type of the object of the binding
 		 * @param feature

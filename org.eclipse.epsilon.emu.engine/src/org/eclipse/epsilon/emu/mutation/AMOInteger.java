@@ -69,8 +69,9 @@ public abstract class AMOInteger {
 			if (checkAdditionConditions(feature, value).equals(IMutationGenerator.VALID)) {
 				if (newValue == null)
 					throw new IllegalArgumentException("The mutated integer value must be defined: " + newValue);
-				if (newValue == value)
-					throw new IllegalArgumentException("The original integer value and the new value must not be equal: " + newValue);
+				if (newValue.equals(value))
+					throw new IllegalArgumentException(
+							"The original integer value and the new value must not be equal: " + newValue);
 				return IMutationGenerator.VALID;
 			}
 			return IMutationGenerator.INVALID;
@@ -84,8 +85,9 @@ public abstract class AMOInteger {
 			if (checkDeletionConditions(feature, value).equals(IMutationGenerator.VALID)) {
 				if (newValue == null)
 					throw new IllegalArgumentException("The mutated integer value must be defined: " + newValue);
-				if (value == newValue)
-					throw new IllegalArgumentException("The original integer value and the new value must not be equal: " + newValue);
+				if (newValue.equals(value))
+					throw new IllegalArgumentException(
+							"The original integer value and the new value must not be equal: " + newValue);
 				return IMutationGenerator.VALID;
 			}
 			return IMutationGenerator.INVALID;
@@ -97,7 +99,11 @@ public abstract class AMOInteger {
 		Object instanceClass = feature.getEType().getInstanceClass();
 		if (instanceClass.equals(Integer.class) || instanceClass.equals(int.class)) {
 			if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
-				if (value == valueNew)
+				if (value != null && value.equals(valueNew))
+					return IMutationGenerator.INVALID;
+				if (valueNew != null && valueNew.equals(value))
+					return IMutationGenerator.INVALID;
+				if (valueNew == value)
 					return IMutationGenerator.INVALID;
 				return IMutationGenerator.VALID;
 			}

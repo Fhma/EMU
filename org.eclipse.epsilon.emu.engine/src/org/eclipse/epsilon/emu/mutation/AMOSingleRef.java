@@ -77,7 +77,7 @@ public abstract class AMOSingleRef {
 		if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
 			if (valueNew == null)
 				return IMutationGenerator.INVALID;
-			if (value.equals(valueNew))
+			if (valueNew.equals(value))
 				return IMutationGenerator.INVALID;
 			return IMutationGenerator.VALID;
 		}
