@@ -131,42 +131,26 @@ public class EmuPatternMatcher extends PatternMatcher {
 
 	private Tuple prepareForMutation(EmuModule module, PatternMatch match, IEolContext context) throws Exception {
 
+		// TODO: follow Epsilon EMC principle and redo this method
 		// check which role has the target instance and type
 		String instanceName = null;
 		Object roleBinding = null;
 		EClass targetType = null;
 		Set<Map.Entry<String, Object>> RoleBindingSet = match.getRoleBindings().entrySet();
 		boolean found = false;
-		if (RoleBindingSet.size() > 1) {
-			Iterator<Map.Entry<String, Object>> it = RoleBindingSet.iterator();
-			while (it.hasNext() && !found) {
-				Map.Entry<String, Object> pair = it.next();
-				if (pair.getValue() instanceof EObject) {
-					EObject eObj = (EObject) pair.getValue();
-					if (eObj.eClass() instanceof EClass) {
-						EClass eClass = (EClass) eObj.eClass();
-						if (eClass.getName().equals(getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context))) {
-							// found target type and only allowing one matching
-							// role for that type
-							targetType = eClass;
-							instanceName = pair.getKey();
-							roleBinding = pair.getValue();
-							found = true;
-						}
-					}
-				}
-			}
-		} else {
-			Set<String> key = match.getRoleBindings().keySet();
-			for (String s : key)
-				instanceName = s;
-			roleBinding = match.getRoleBinding(instanceName);
-			if (roleBinding instanceof EObject) {
-				roleBinding = (EObject) roleBinding;
-				if (((EObject) roleBinding).eClass() instanceof EClass) {
-					targetType = (EClass) ((EObject) roleBinding).eClass();
-					found = true;
-				}
+		Iterator<Map.Entry<String, Object>> it = RoleBindingSet.iterator();
+		while (it.hasNext() && !found) {
+			Map.Entry<String, Object> pair = it.next();
+			if (RoleBindingSet.size() > 1 && !pair.getKey().equals(getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context)))
+				continue;
+			IModel owning_model = module.getContext().getModelRepository().getOwningModel(pair.getValue());
+			boolean res = owning_model.getPropertyGetter().hasProperty(pair.getValue(), getAnnotationValue(match.getPattern(), FEATURE_ANNOTATION, context));
+
+			if (res) {
+				targetType = (EClass) ((EObject) pair.getValue()).eClass();
+				instanceName = pair.getKey();
+				roleBinding = pair.getValue();
+				found = true;
 			}
 		}
 

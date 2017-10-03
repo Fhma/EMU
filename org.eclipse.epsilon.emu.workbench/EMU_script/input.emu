@@ -1,22 +1,12 @@
-//13) Binding Feature Change: Binding_propertyName_replace
-@action replace
-@feature propertyName
-pattern mutation_operator_13_case_1
-instance:Binding
+//1) MatchedRule element deletion:
+@action delete
+@feature elements
+@type module
+pattern case_1_delete_MatchedRule
+module:Module,
+rules:Rule from: Rule.all.select(e|e.isKindOf(MatchedRule))
 {
 	do {
-		instance.propertyName = instance.propertyName.firstToUpperCase();
-	}
-}
-
-@action replace
-@feature propertyName
-@type Binding
-pattern mutation_operator_13_case_2
-instance1:Binding,
-otherbindings:Binding from: Binding.all.select(e|e <> instance1)
-{
-	do {
-		instance1.propertyName = otherbindings.propertyName;
+		module.elements.remove(rules);
 	}
 }

@@ -37,8 +37,9 @@ public class SingleRun {
 		// String modelString = SingleRun.class.getResource("resources/petrinet_example_1.xmi").getPath();
 		// String metamodel = SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
 
-		// atl example
-		String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
+		// atl examples
+		//String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
+		String modelString = SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
 		String metamodel = SingleRun.class.getResource("resources/ATL.ecore").getPath();
 
 		EmuModule module = new EmuModule();
