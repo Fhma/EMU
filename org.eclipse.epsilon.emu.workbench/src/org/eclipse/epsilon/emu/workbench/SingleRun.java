@@ -39,8 +39,18 @@ public class SingleRun {
 
 		// atl examples
 		//String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
-		String modelString = SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
+		//String modelString = SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
+		String modelString = SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
 		String metamodel = SingleRun.class.getResource("resources/ATL.ecore").getPath();
+
+		File output = new File("EMU_script/input_mutants");
+
+		if (output.exists() && output.isDirectory()) {
+			File[] files = output.listFiles();
+			for (File f : files)
+				f.delete();
+			output.delete();
+		}
 
 		EmuModule module = new EmuModule();
 

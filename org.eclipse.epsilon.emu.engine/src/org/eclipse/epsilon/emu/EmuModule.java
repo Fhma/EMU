@@ -9,6 +9,7 @@ package org.eclipse.epsilon.emu;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
@@ -46,6 +47,7 @@ public class EmuModule extends EplModule {
 
 	@Override
 	public Object execute() throws EolRuntimeException {
+		checkUniqueness();
 		execute(getPre(), context);
 		EmuPatternMatcher patternMatcher = new EmuPatternMatcher();
 		try {
@@ -114,5 +116,14 @@ public class EmuModule extends EplModule {
 	@Override
 	public boolean isRepeatWhileMatches() {
 		return false;
+	}
+
+	public void checkUniqueness() throws EolRuntimeException {
+		List<String> names = new ArrayList<String>();
+		for (Pattern pt : this.getPatterns()) {
+			if (names.contains(pt.getName()))
+				throw new EolRuntimeException("Dublicate pattern name [" + pt.getName() + "] is found in [" + this.getSourceFile().getPath() + "]");
+			names.add(pt.getName());
+		}
 	}
 }

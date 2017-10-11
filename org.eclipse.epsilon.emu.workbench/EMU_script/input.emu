@@ -1,12 +1,112 @@
-//1) MatchedRule element deletion:
-@action delete
-@feature elements
-@type module
-pattern case_1_delete_MatchedRule
-module:Module,
-rules:Rule from: Rule.all.select(e|e.isKindOf(MatchedRule))
+//12) Binding Value Change: Binding_value_replacement
+@action replace
+@feature value
+@type containment
+pattern mutation_operator_12_impl_1
+// filter to find NavigationOrAttributeCallExp
+target:NavigationOrAttributeCallExp,
+containment:Binding from: Binding.all.select(e|e.value = target)
 {
 	do {
-		module.elements.remove(rules);
+		var new_nav = NavigationOrAttributeCallExp.createInstance();
+		// change the name of the attribute call exp to different name
+		new_nav.name = target.name + "_";
+		new_nav.source = target.source;
+		containment.value = new_nav;
+	}
+}
+
+
+@action replace
+@feature value
+@type containment
+pattern mutation_operator_12_impl_2
+// filter to find NavigationOrAttributeCallExp
+containment:Binding in: Binding.all.select(e|e.value.isTypeOf(NavigationOrAttributeCallExp))
+guard: containment.value.source.isTypeOf(VariableExp),
+values:VariableExp in: VariableExp.all.select(e| e.referredVariable.isKindOf(InPatternElement))
+guard: not (values.referredVariable.varName = containment.value.source.referredVariable.varName)
+{
+	do {
+		var new_nav = NavigationOrAttributeCallExp.createInstance();
+		// change the source of the attribute call exp 
+		new_nav.name = containment.value.name;
+		var new_variable_exp = VariableExp.createInstance();
+		new_variable_exp.referredVariable = values.referredVariable;
+		new_nav.source = new_variable_exp;
+		containment.value = new_nav;
+	}
+}
+
+@action replace
+@feature value
+@type containment
+pattern mutation_operator_12_impl_3
+target:VariableExp,
+containment:Binding from: Binding.all.select(e|e.value = target)
+{
+	do {
+		if(target.referredVariable.isTypeOf(SimpleOutPatternElement))
+		{
+			var new_var = VariableExp.createInstance();
+			var out_pattern = target.referredVariable;
+			out_pattern.varName = out_pattern.varName + "_"; 
+			new_var.referredVariable=out_pattern;
+			containment.value = new_var;
+		}
+	}
+}
+
+@action replace
+@feature value
+pattern mutation_operator_12_impl_4
+containment:Binding from: Binding.all.select(e| e.value.isTypeOf(OperationCallExp))
+{
+	do {
+			//replace with a new operation with different operation name
+			var new_op = OperationCallExp.createInstance();
+			new_op.operationName = containment.value.operationName + "_";
+			new_op.arguments.addAll(containment.value.arguments);
+			new_op.source = containment.value.source;
+			containment.value = new_op;
+	}
+}
+
+@action replace
+@feature value
+pattern mutation_operator_12_impl_5
+containment:Binding from: Binding.all.select(e|e.value.isTypeOf(OperationCallExp))
+guard: containment.value.arguments.size()>0
+{
+	do {
+			//replace with an operation with different argumenets
+			var new_op = OperationCallExp.createInstance();
+			new_op.operationName = containment.value.operationName;
+			var argu = containment.value.arguments.random();
+			new_op.arguments.addAll(containment.value.arguments.excluding(argu));
+			new_op.source = containment.value.source;
+			containment.value = new_op;
+	}
+}
+
+@action replace
+@feature value
+pattern mutation_operator_12_impl_6
+containment:Binding from: Binding.all.select(e|e.value.isKindOf(IteratorExp))
+{
+	do {
+		// changing iterator name
+		var first_order = Sequence{"collect","select","reject","sortedBy"};
+		var new_iterator = IteratorExp.createInstance();
+		var selected = first_order.random();
+		while(containment.value.name = selected)
+		{
+			selected = first_order.random();
+		}
+		new_iterator.name = selected;
+		new_iterator.source = containment.value.source;
+		new_iterator.body = containment.value.body;
+		new_iterator.iterators.addAll(containment.value.iterators);
+		containment.value = new_iterator;
 	}
 }

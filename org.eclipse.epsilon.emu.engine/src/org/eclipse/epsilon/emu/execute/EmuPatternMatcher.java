@@ -48,6 +48,11 @@ public class EmuPatternMatcher extends PatternMatcher {
 	protected static final String MUTATION_ACTION_ANNOTATION = "action";
 	protected static final String FEATURE_ANNOTATION = "feature";
 	protected static final String TYPE_ANNOTATION = "type";
+	public static final String INVALID_MUTATION = "N/A";
+	public static final String OPERATOR_S_TAG = "OID";
+	public static final String OPERATOR_E_TAG = "DIO";
+	public static final String PATTERN_S_TAG = "PT";
+	public static final String PATTERN_E_TAG = "TP";
 
 	protected IModel modelThatOwnsMatching = null;
 	private IMutationGenerator mutationGeneratorImpl = null;
@@ -90,11 +95,15 @@ public class EmuPatternMatcher extends PatternMatcher {
 					String mutation_action = getAnnotationValue(match.getPattern(), MUTATION_ACTION_ANNOTATION, context);
 
 					ExecutableBlock<Void> do_ = getDoBlock(values, module, match, context);
+					String operatorName = values.getType() + "_" + values.getFeature().getName() + "_" + getAnnotationValue(match.getPattern(), MUTATION_ACTION_ANNOTATION, context);
+					operatorName = OPERATOR_S_TAG + Math.abs(operatorName.hashCode()) + OPERATOR_E_TAG + operatorName;
+
 					if (do_ != null) {
 						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, do_);
 						for (String componentName : match.getRoleBindings().keySet()) {
 							context.getFrameStack().put(Variable.createReadOnlyVariable(componentName, match.getRoleBinding(componentName)));
 						}
+
 						context.getModelRepository().getTransactionSupport().startTransaction();
 
 						try {
@@ -102,7 +111,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 						} catch (EolInternalException e) {
 							context.getModelRepository().getTransactionSupport().rollbackTransaction();
 							context.getFrameStack().leaveLocal(do_);
-							System.err.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in [" + module.getSourceFile() + "]");
+							module.getOperatorsMatrix().getValue(operatorName).add(INVALID_MUTATION);
 							continue;
 						} catch (Exception e) {
 							throw new Exception(e);
@@ -112,17 +121,17 @@ public class EmuPatternMatcher extends PatternMatcher {
 						valid_mutant = getMutationGenerator().checkConditions(values.getFeature(), values.getValue(), newValue, mutation_action);
 
 						if (valid_mutant == IMutationGenerator.VALID) {
-							String operatorName = values.getType().getName() + "_" + values.getFeature().getName() + "_" + getAnnotationValue(match.getPattern(), MUTATION_ACTION_ANNOTATION, context);
 							index = module.getOperatorsMatrix().getValue(operatorName).size() + 1;
-							String mutant = location + "FID" + module.getSourceFile().hashCode() + "_" + operatorName + "_" + index + ".xmi";
-							module.getOperatorsMatrix().getContent().get(operatorName).add(mutant);
+							String mutant = location + operatorName + "_" + index + ".xmi";
+							module.getOperatorsMatrix().getValue(operatorName).add(mutant);
 							getModelThatOwnsMatching().store(mutant);
 						}
 						context.getModelRepository().getTransactionSupport().rollbackTransaction();
 						context.getFrameStack().leaveLocal(do_);
 					}
-					if (valid_mutant == null || (valid_mutant != null && !valid_mutant.equals(IMutationGenerator.VALID)))
-						System.err.println("Invalid mutation by pattern [" + match.getPattern().getName() + "] in [" + module.getSourceFile() + "]");
+					if (valid_mutant == null || (valid_mutant != null && !valid_mutant.equals(IMutationGenerator.VALID))) {
+						module.getOperatorsMatrix().getValue(operatorName).add(INVALID_MUTATION);
+					}
 				}
 			}
 		}
@@ -135,7 +144,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 		// check which role has the target instance and type
 		String instanceName = null;
 		Object roleBinding = null;
-		EClass targetType = null;
+		String targetType = null;
 		Set<Map.Entry<String, Object>> RoleBindingSet = match.getRoleBindings().entrySet();
 		boolean found = false;
 		Iterator<Map.Entry<String, Object>> it = RoleBindingSet.iterator();
@@ -147,9 +156,9 @@ public class EmuPatternMatcher extends PatternMatcher {
 			boolean res = owning_model.getPropertyGetter().hasProperty(pair.getValue(), getAnnotationValue(match.getPattern(), FEATURE_ANNOTATION, context));
 
 			if (res) {
-				targetType = (EClass) ((EObject) pair.getValue()).eClass();
 				instanceName = pair.getKey();
 				roleBinding = pair.getValue();
+				targetType = owning_model.getTypeNameOf(roleBinding);
 				found = true;
 			}
 		}
@@ -157,15 +166,17 @@ public class EmuPatternMatcher extends PatternMatcher {
 		if (!found)
 			throw new IllegalArgumentException("Unable to find a target type [" + getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context) + "] within the matching roles.");
 
-		if (targetType == null)
+		if (roleBinding == null)
 			throw new IllegalArgumentException("Unrecognizable Object " + roleBinding);
 
 		String propertyName = getAnnotationValue(match.getPattern(), FEATURE_ANNOTATION, context);
 
 		setModelThatOwnsMatching(roleBinding, context);
-		EStructuralFeature feature = EmfUtil.getEStructuralFeature(targetType, propertyName);
 
-		Object feature_value = ((EObject) roleBinding).eGet(feature);
+		// TODO: follow Epsilon EMC principle and redo
+		EStructuralFeature feature = EmfUtil.getEStructuralFeature((EClass) ((EObject) roleBinding).eClass(), propertyName);
+
+		Object feature_value = getModelThatOwnsMatching().getPropertyGetter().invoke(roleBinding, propertyName);
 
 		return new Tuple(roleBinding, instanceName, targetType, feature, feature_value);
 	}
@@ -264,12 +275,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 	}
 
 	private void setModelThatOwnsMatching(Object obj, IEolContext context) {
-		for (IModel model : context.getModelRepository().getModels()) {
-			if (model.owns(obj)) {
-				this.modelThatOwnsMatching = model;
-				return;
-			}
-		}
+		modelThatOwnsMatching = context.getModelRepository().getOwningModel(obj);
 	}
 
 	private void checkAnnotations(Pattern pattern) throws Exception {
@@ -307,7 +313,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 	private class Tuple {
 		private Object roleBinding;
 		private String instanceName;
-		private EClass type;
+		private String type;
 		private EStructuralFeature feature;
 		private Object value;
 
@@ -326,7 +332,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 		 *            the value is going to be mutated
 		 * @return return a new instance of a tuple
 		 */
-		public Tuple(Object binding, String instanceName, EClass type, EStructuralFeature feature, Object value) {
+		public Tuple(Object binding, String instanceName, String type, EStructuralFeature feature, Object value) {
 			roleBinding = binding;
 			this.instanceName = instanceName;
 			this.type = type;
@@ -342,7 +348,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 				this.value = value;
 		}
 
-		public EClass getType() {
+		public String getType() {
 			return type;
 		}
 
@@ -367,7 +373,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 			String s;
 			s = "Tuble" + this.hashCode() + "{";
 			s += "Role Binding = " + roleBinding + ", ";
-			s += "Instance:Type = " + instanceName + ":" + type.getName() + ", ";
+			s += "Instance:Type = " + instanceName + ":" + type + ", ";
 			s += "Feature = " + feature.getName() + ", ";
 			s += "Value = " + value;
 			return s + "}";
