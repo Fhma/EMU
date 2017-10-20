@@ -35,6 +35,7 @@ public class EmuEditor extends EplEditor{
 		keywords.add("guard");
 		keywords.add("do");
 		keywords.add("from");
+		keywords.add("in");
 
 		keywords.addAll(super.getKeywords());
 		

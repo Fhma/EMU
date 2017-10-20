@@ -38,9 +38,10 @@ public class SingleRun {
 		// String metamodel = SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
 
 		// atl examples
-		//String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
+		String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
+		//String modelString = SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
 		//String modelString = SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
-		String modelString = SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
+		
 		String metamodel = SingleRun.class.getResource("resources/ATL.ecore").getPath();
 
 		File output = new File("EMU_script/input_mutants");
@@ -51,7 +52,7 @@ public class SingleRun {
 				f.delete();
 			output.delete();
 		}
-
+		
 		EmuModule module = new EmuModule();
 
 		try {

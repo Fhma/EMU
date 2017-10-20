@@ -49,10 +49,6 @@ public class EmuPatternMatcher extends PatternMatcher {
 	protected static final String FEATURE_ANNOTATION = "feature";
 	protected static final String TYPE_ANNOTATION = "type";
 	public static final String INVALID_MUTATION = "N/A";
-	public static final String OPERATOR_S_TAG = "OID";
-	public static final String OPERATOR_E_TAG = "DIO";
-	public static final String PATTERN_S_TAG = "PT";
-	public static final String PATTERN_E_TAG = "TP";
 
 	protected IModel modelThatOwnsMatching = null;
 	private IMutationGenerator mutationGeneratorImpl = null;
@@ -96,7 +92,6 @@ public class EmuPatternMatcher extends PatternMatcher {
 
 					ExecutableBlock<Void> do_ = getDoBlock(values, module, match, context);
 					String operatorName = values.getType() + "_" + values.getFeature().getName() + "_" + getAnnotationValue(match.getPattern(), MUTATION_ACTION_ANNOTATION, context);
-					operatorName = OPERATOR_S_TAG + Math.abs(operatorName.hashCode()) + OPERATOR_E_TAG + operatorName;
 
 					if (do_ != null) {
 						context.getFrameStack().enterLocal(FrameType.UNPROTECTED, do_);

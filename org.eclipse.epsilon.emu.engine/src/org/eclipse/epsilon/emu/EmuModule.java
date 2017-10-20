@@ -60,8 +60,9 @@ public class EmuModule extends EplModule {
 	}
 
 	public OMatrix getOperatorsMatrix() {
-		if (operatorsMatrix == null)
+		if (operatorsMatrix == null) {
 			operatorsMatrix = new OMatrix(getMutantsDir().getAbsolutePath() + File.separatorChar + getMutantsDir().getName());
+		}
 		return operatorsMatrix;
 	}
 
@@ -122,8 +123,16 @@ public class EmuModule extends EplModule {
 		List<String> names = new ArrayList<String>();
 		for (Pattern pt : this.getPatterns()) {
 			if (names.contains(pt.getName()))
-				throw new EolRuntimeException("Dublicate pattern name [" + pt.getName() + "] is found in [" + this.getSourceFile().getPath() + "]");
+				throw new EolRuntimeException("Dublicate pattern names [" + pt.getName() + "] is found in [" + this.getSourceFile().getPath() + "]");
 			names.add(pt.getName());
 		}
+	}
+
+	public void setMutants_dir(File mutants_dir) {
+		this.mutants_dir = mutants_dir;
+	}
+
+	public void setOperatorsMatrix(OMatrix operatorsMatrix) {
+		this.operatorsMatrix = operatorsMatrix;
 	}
 }
