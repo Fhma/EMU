@@ -128,7 +128,7 @@ package ATL {
 
   class ActionBlock extends LocatedElement {
     !ordered ref Rule[1]#actionBlock rule;
-    val Statement[*] statements;
+    val Statement[*]#actionBlock statements;
   }
 
   abstract class Statement extends LocatedElement {

@@ -1,84 +1,31 @@
+// Impl 2.8: change the type of InPatternElement exists in
+// inPattern.elements with different Ocltype: to non-primitive
+// type
 @action replace
-@feature definition
-pattern context_primitive_change2string
-instance:Helper from: Helper.all.select(e|e.definition.context_.isDefined())
-guard: not (instance.definition.context_.context_.isTypeOf(StringType))
-{
-	do {
-		var new_def = OclFeatureDefinition.createInstance();
-		new_def.feature = instance.definition.feature;
-		new_def.context_ = instance.definition.context_;
-		
-		new_def.context_.context_ = StringType.createInstance(); 
-		instance.definition = new_def;
-	}
-}
-
-@action replace
-@feature definition
-pattern context_primitive_change2boolean
-instance:Helper from: Helper.all.select(e|e.definition.context_.isDefined())
-guard: not (instance.definition.context_.context_.isTypeOf(BooleanType))
-{
-	do {
-		var new_def = OclFeatureDefinition.createInstance();
-		new_def.feature = instance.definition.feature;
-		new_def.context_ = instance.definition.context_;
-		
-		new_def.context_.context_ = BooleanType.createInstance(); 
-		instance.definition = new_def;
-	}
-}
-
-@action replace
-@feature definition
-pattern context_primitive_change2integer
-instance:Helper from: Helper.all.select(e|e.definition.context_.isDefined())
-guard: not (instance.definition.context_.context_.isTypeOf(IntegerType))
-{
-	do {
-		var new_def = OclFeatureDefinition.createInstance();
-		new_def.feature = instance.definition.feature;
-		new_def.context_ = instance.definition.context_;
-		
-		new_def.context_.context_ = IntegerType.createInstance(); 
-		instance.definition = new_def;
-	}
-}
-
-@action replace
-@feature definition
-pattern context_primitive_change2real
-instance:Helper from: Helper.all.select(e|e.definition.context_.isDefined())
-guard: not (instance.definition.context_.context_.isTypeOf(RealType))
-{
-	do {
-		var new_def = OclFeatureDefinition.createInstance();
-		new_def.feature = instance.definition.feature;
-		new_def.context_ = instance.definition.context_;
-		
-		new_def.context_.context_ = RealType.createInstance(); 
-		instance.definition = new_def;
-	}
-}
-
-@action replace
-@feature definition
+@feature inPattern
 @type instance
-pattern context_type_change2othertype
-instance:Helper in: Helper.all.select(e|e.definition.context_.isDefined()),
-othertype:OclModelElement in: OclModelElement.all.select(e| not (e = instance.definition.context_.context_))
-guard: instance.definition.context_.context_.name <> othertype.name
+pattern change_type_of_inPatternElement_to_diff_type
+instance:MatchedRule,
+element:InPatternElement
+	in: instance.inPattern.elements.select(e|e.type.isDefined()
+		and not (e.type.isKindOf(Primitive)))
+	guard: not(element.type.isTypeOf(RealType)),
+other_type:OclModelElement
+	in: OclModelElement.all.select(e| not e.isKindOf(Primitive))
+	guard: (other_type.name <> element.type.name)
+		and (other_type.`model`.name = element.type.`model`.name) // from same IN MM
 {
 	do {
-		var new_def = OclFeatureDefinition.createInstance();
-		new_def.feature = instance.definition.feature;
-		new_def.context_ = instance.definition.context_;
+		var new_inpattern = InPattern.createInstance();
+		new_inpattern.elements.addAll(instance.inPattern.elements);
+		new_inpattern.filter = instance.inPattern.filter;
 		
 		var new_type = OclModelElement.createInstance();
-		new_type.name = othertype.name;
-		new_type.`model` = othertype.`model`;
-		new_def.context_.context_ = new_type; 
-		instance.definition = new_def;
+		new_type.name = other_type.name;
+		new_type.`model` = other_type.`model`;
+		 
+		element.type = new_type;
+		
+		instance.inPattern = new_inpattern;
 	}
 }

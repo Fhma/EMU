@@ -48,6 +48,7 @@ public class EmuModule extends EplModule {
 	@Override
 	public Object execute() throws EolRuntimeException {
 		checkUniqueness();
+		prepareContext(context);
 		execute(getPre(), context);
 		EmuPatternMatcher patternMatcher = new EmuPatternMatcher();
 		try {
