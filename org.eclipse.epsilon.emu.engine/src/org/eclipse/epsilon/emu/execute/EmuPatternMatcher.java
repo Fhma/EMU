@@ -159,7 +159,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 		}
 
 		if (!found)
-			throw new IllegalArgumentException("Unable to find a target type [" + getAnnotationValue(match.getPattern(), TYPE_ANNOTATION, context) + "] within the matching roles.");
+			throw new IllegalArgumentException("Unable to find the target type or property within the matching roles of pattern [" + match.getPattern().getName() + "]");
 
 		if (roleBinding == null)
 			throw new IllegalArgumentException("Unrecognizable Object " + roleBinding);

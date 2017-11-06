@@ -39,9 +39,10 @@ public class SingleRun {
 
 		// atl examples
 		//String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
-		String modelString = SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
+		//String modelString = SingleRun.class.getResource("resources/Book2Publication2.xmi").getPath();
+		//String modelString = SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
 		//String modelString = SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
-		//String modelString = SingleRun.class.getResource("resources/Table2SVGPieChart.xmi").getPath();
+		String modelString = SingleRun.class.getResource("resources/Table2SVGPieChart.xmi").getPath();
 		
 		String metamodel = SingleRun.class.getResource("resources/ATL.ecore").getPath();
 

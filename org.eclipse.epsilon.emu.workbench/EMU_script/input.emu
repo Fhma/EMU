@@ -1,31 +1,45 @@
-// Impl 2.8: change the type of InPatternElement exists in
-// inPattern.elements with different Ocltype: to non-primitive
-// type
+
+// replaces a feature of OCL.Operation with OCL.Attribute 
+// or vice versa.
+
+// Sec 1: replace a feature of type Operation with Attribute
+// and change copy over
+//		1) Operation.name -> Attribute.name
+//		2) Operatioin.body -> Attribute.initExpression
+//		3) Operation.returnType -> Attribute.type
 @action replace
-@feature inPattern
-@type instance
-pattern change_type_of_inPatternElement_to_diff_type
-instance:MatchedRule,
-element:InPatternElement
-	in: instance.inPattern.elements.select(e|e.type.isDefined()
-		and not (e.type.isKindOf(Primitive)))
-	guard: not(element.type.isTypeOf(RealType)),
-other_type:OclModelElement
-	in: OclModelElement.all.select(e| not e.isKindOf(Primitive))
-	guard: (other_type.name <> element.type.name)
-		and (other_type.`model`.name = element.type.`model`.name) // from same IN MM
+@feature feature
+pattern replace_oclOperation_with_oclAttribute
+instance:OclFeatureDefinition
+	in: OclFeatureDefinition.all.select(e|e.feature.isTypeOf(Operation))
+	guard:instance.feature.parameters.size = 0
 {
 	do {
-		var new_inpattern = InPattern.createInstance();
-		new_inpattern.elements.addAll(instance.inPattern.elements);
-		new_inpattern.filter = instance.inPattern.filter;
-		
-		var new_type = OclModelElement.createInstance();
-		new_type.name = other_type.name;
-		new_type.`model` = other_type.`model`;
-		 
-		element.type = new_type;
-		
-		instance.inPattern = new_inpattern;
+		var attribute = Attribute.createInstance();
+		attribute.name = instance.feature.name;
+		attribute.initExpression = instance.feature.body;
+		attribute.type = instance.feature.returnType;
+		instance.feature = attribute;
+	}
+}
+
+
+// Sec 2: replace a feature of type Attribute with Operation
+// and change copy over
+//		1) Attribute.name -> Attribute.name
+//		2) Attribute.initExpression -> Operatioin.body
+//		3) Attribute.type -> Operation.returnType 
+@action replace
+@feature feature
+pattern replace_oclAttribute_with_oclOperation
+instance:OclFeatureDefinition
+	in: OclFeatureDefinition.all.select(e|e.feature.isTypeOf(Attribute))
+{
+	do {
+		var operation_ = Operation.createInstance();
+		operation_.name = instance.feature.name;
+		operation_.body = instance.feature.initExpression;
+		operation_.returnType = instance.feature.type;
+		instance.feature = operation_;
 	}
 }
