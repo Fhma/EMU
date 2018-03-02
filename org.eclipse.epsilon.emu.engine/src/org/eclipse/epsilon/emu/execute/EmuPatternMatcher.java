@@ -117,9 +117,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 
 						if (valid_mutant == IMutationGenerator.VALID) {
 							index = module.getOperatorsMatrix().getValue(operatorName).size() + 1;
-							String mutant = location + operatorName + "_";
-							mutant+= (index / 10 == 0) ? "0" + index : index;
-							mutant+= ".xmi";
+							String mutant = location + operatorName + "_" + index + ".xmi";
 							module.getOperatorsMatrix().getValue(operatorName).add(mutant);
 							getModelThatOwnsMatching().store(mutant);
 						}
