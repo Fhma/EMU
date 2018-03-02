@@ -25,9 +25,9 @@ import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emu.EmuModule;
 
-public class SingleRun {
+public class SingleRunATL {
 	public static void main(String[] args) {
-		new SingleRun().run();
+		new SingleRunATL().run();
 	}
 
 	public void run() {
@@ -38,13 +38,12 @@ public class SingleRun {
 		// String metamodel = SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
 
 		// atl examples
-		//String modelString = SingleRun.class.getResource("resources/Book2Publication.xmi").getPath();
-		//String modelString = SingleRun.class.getResource("resources/Book2Publication2.xmi").getPath();
+		String modelString = SingleRunATL.class.getResource("resources/Book2Publication.xmi").getPath();
 		//String modelString = SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
 		//String modelString = SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
-		String modelString = SingleRun.class.getResource("resources/Table2SVGPieChart.xmi").getPath();
+		//String modelString = SingleRun.class.getResource("resources/Table2SVGPieChart.xmi").getPath();
 		
-		String metamodel = SingleRun.class.getResource("resources/ATL.ecore").getPath();
+		String metamodel = SingleRunATL.class.getResource("resources/ATL.ecore").getPath();
 
 		File output = new File("EMU_script/input_mutants");
 
