@@ -4,56 +4,56 @@
  * @version 1.0
  * @since March-2017
  */
- package org.eclipse.epsilon.emu.mutation;
+package org.eclipse.epsilon.emu.mutation;
 
 import java.util.Collection;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.epsilon.emc.mutant.IProperty;
 import org.eclipse.epsilon.emu.EmuModule;
 
 @SuppressWarnings("unchecked")
-public abstract class AMOMultiFeature {
-	public static Object additionOp(Object roleBinding, EStructuralFeature feature, Object value, EmuModule module) {
-		if (checkAdditionConditions(feature, value).equals(IMutationGenerator.VALID)) {
+public abstract class AMOMultiProperty {
+	public static Object additionOp(Object roleBinding, IProperty property, Object value, EmuModule module) {
+		if (checkAdditionConditions(property, value).equals(IMutationGenerator.VALID)) {
 			return IMutationGenerator.NOTIMPLEMENTED;
 		}
 		return IMutationGenerator.INVALID;
 	}
 
-	public static Object deletionOp(Object roleBinding, EStructuralFeature feature, Object value, EmuModule module) {
-		if (checkDeletionConditions(feature, value).equals(IMutationGenerator.VALID)) {
+	public static Object deletionOp(Object roleBinding, IProperty property, Object value, EmuModule module) {
+		if (checkDeletionConditions(property, value).equals(IMutationGenerator.VALID)) {
 			return IMutationGenerator.NOTIMPLEMENTED;
 		}
 		return IMutationGenerator.INVALID;
 	}
 
-	public static Object replacementOp(Object roleBinding, EStructuralFeature feature, Object value, EmuModule module) {
-		if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
+	public static Object replacementOp(Object roleBinding, IProperty property, Object value, EmuModule module) {
+		if (checkReplacementConditions(property, value).equals(IMutationGenerator.VALID)) {
 			return IMutationGenerator.NOTIMPLEMENTED;
 		}
 		return IMutationGenerator.INVALID;
 	}
 
-	private static Object checkAdditionConditions(EStructuralFeature feature, Object value) {
+	private static Object checkAdditionConditions(IProperty property, Object value) {
 		if (value == null)
 			return IMutationGenerator.INVALID;
-		if (feature.getUpperBound() != -1) {
+		if (property.getUpperBound() != -1) {
 			Collection<Object> col = (Collection<Object>) value;
-			if (col.size() + 1 > feature.getUpperBound())
+			if (col.size() + 1 > property.getUpperBound())
 				return IMutationGenerator.INVALID;
 		}
 		return IMutationGenerator.VALID;
 	}
 
-	private static Object checkDeletionConditions(EStructuralFeature feature, Object value) {
+	private static Object checkDeletionConditions(IProperty property, Object value) {
 		if (value == null)
 			return IMutationGenerator.INVALID;
 		Collection<Object> col = (Collection<Object>) value;
-		if (col.size() - 1 < feature.getLowerBound())
+		if (col.size() - 1 < property.getLowerBound())
 			return IMutationGenerator.INVALID;
 		return IMutationGenerator.VALID;
 	}
 
-	private static Object checkReplacementConditions(EStructuralFeature feature, Object value) {
+	private static Object checkReplacementConditions(IProperty property, Object value) {
 		if (value == null)
 			return IMutationGenerator.INVALID;
 		Collection<Object> col = (Collection<Object>) value;
@@ -62,8 +62,8 @@ public abstract class AMOMultiFeature {
 		return IMutationGenerator.VALID;
 	}
 
-	public static Object checkAdditionConditions(EStructuralFeature feature, Object value, Object valueNew) {
-		if (checkAdditionConditions(feature, value).equals(IMutationGenerator.VALID)) {
+	public static Object checkAdditionConditions(IProperty property, Object value, Object valueNew) {
+		if (checkAdditionConditions(property, value).equals(IMutationGenerator.VALID)) {
 			if (valueNew == null)
 				return IMutationGenerator.INVALID;
 			Collection<Object> oldCol = (Collection<Object>) value;
@@ -75,15 +75,15 @@ public abstract class AMOMultiFeature {
 		return IMutationGenerator.INVALID;
 	}
 
-	public static Object checkDeletionConditions(EStructuralFeature feature, Object value, Object valueNew) {
-		if (checkDeletionConditions(feature, value).equals(IMutationGenerator.VALID)) {
+	public static Object checkDeletionConditions(IProperty property, Object value, Object valueNew) {
+		if (checkDeletionConditions(property, value).equals(IMutationGenerator.VALID)) {
 			if (valueNew == null)
 				return IMutationGenerator.INVALID;
 			Collection<Object> oldCol = (Collection<Object>) value;
 			Collection<Object> newCol = (Collection<Object>) valueNew;
 			if (newCol.contains(null))
 				return IMutationGenerator.INVALID;
-			if (newCol.size() < feature.getLowerBound())
+			if (newCol.size() < property.getLowerBound())
 				return IMutationGenerator.INVALID;
 			if (oldCol.size() - 1 != newCol.size())
 				return IMutationGenerator.INVALID;
@@ -92,8 +92,8 @@ public abstract class AMOMultiFeature {
 		return IMutationGenerator.INVALID;
 	}
 
-	public static Object checkReplacementConditions(EStructuralFeature feature, Object value, Object valueNew) {
-		if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
+	public static Object checkReplacementConditions(IProperty property, Object value, Object valueNew) {
+		if (checkReplacementConditions(property, value).equals(IMutationGenerator.VALID)) {
 			if (valueNew == null)
 				return IMutationGenerator.INVALID;
 			Collection<Object> newCol = (Collection<Object>) valueNew;

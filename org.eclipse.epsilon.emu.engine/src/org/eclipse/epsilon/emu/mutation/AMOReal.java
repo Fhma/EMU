@@ -7,66 +7,66 @@
 
 package org.eclipse.epsilon.emu.mutation;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.epsilon.emc.mutant.IProperty;
 import org.eclipse.epsilon.emu.EmuModule;
 
 public abstract class AMOReal {
 
-	public static Object additionOp(Object roleBinding, EStructuralFeature feature, Object value, EmuModule module) {
-		Object instanceClass = feature.getEType().getInstanceClass();
+	public static Object additionOp(Object roleBinding, IProperty property, Object value, EmuModule module) {
+		Object instanceClass = property.getType();
 		if (instanceClass.equals(Float.class) || instanceClass.equals(float.class)) {
-			if (checkAdditionConditions(feature, value).equals(IMutationGenerator.VALID)) {
+			if (checkAdditionConditions(property, value).equals(IMutationGenerator.VALID)) {
 				float newValue = (float) ((double) value);
 				return (newValue + 1f);
 			}
 			return IMutationGenerator.INVALID;
 		}
-		throw new IllegalArgumentException("non-real feature type " + feature);
+		throw new IllegalArgumentException("non-real property type " + property);
 	}
 
-	public static Object deletionOp(Object roleBinding, EStructuralFeature feature, Object value, EmuModule module) {
-		Object instanceClass = feature.getEType().getInstanceClass();
+	public static Object deletionOp(Object roleBinding, IProperty property, Object value, EmuModule module) {
+		Object instanceClass = property.getType();
 		if (instanceClass.equals(Float.class) || instanceClass.equals(float.class)) {
-			if (checkDeletionConditions(feature, value).equals(IMutationGenerator.VALID)) {
+			if (checkDeletionConditions(property, value).equals(IMutationGenerator.VALID)) {
 				float newValue = (float) ((double) value);
 				return (newValue - 1f);
 			}
 			return IMutationGenerator.INVALID;
 		}
-		throw new IllegalArgumentException("non-real feature type " + feature);
+		throw new IllegalArgumentException("non-real property type " + property);
 	}
 
-	public static Object replacementOp(Object roleBinding, EStructuralFeature feature, Object value, EmuModule module) {
-		Object instanceClass = feature.getEType().getInstanceClass();
+	public static Object replacementOp(Object roleBinding, IProperty property, Object value, EmuModule module) {
+		Object instanceClass = property.getType();
 		if (instanceClass.equals(Float.class) || instanceClass.equals(float.class)) {
-			if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
+			if (checkReplacementConditions(property, value).equals(IMutationGenerator.VALID)) {
 				return IMutationGenerator.NOTIMPLEMENTED;
 			}
 			return IMutationGenerator.INVALID;
 		}
-		throw new IllegalArgumentException("non-real feature type " + feature);
+		throw new IllegalArgumentException("non-real property type " + property);
 	}
 
-	private static Object checkAdditionConditions(EStructuralFeature feature, Object value) {
+	private static Object checkAdditionConditions(IProperty property, Object value) {
 		if (value == null)
 			return IMutationGenerator.INVALID;
 		return IMutationGenerator.VALID;
 	}
 
-	private static Object checkDeletionConditions(EStructuralFeature feature, Object value) {
+	private static Object checkDeletionConditions(IProperty property, Object value) {
 		if (value == null)
 			return IMutationGenerator.INVALID;
 		return IMutationGenerator.VALID;
 	}
 
-	private static Object checkReplacementConditions(EStructuralFeature feature, Object value) {
+	private static Object checkReplacementConditions(IProperty property, Object value) {
 		return IMutationGenerator.VALID;
 	}
 
-	public static Object checkAdditionConditions(EStructuralFeature feature, Object value, Object valueNew) {
-		Object instanceClass = feature.getEType().getInstanceClass();
+	public static Object checkAdditionConditions(IProperty property, Object value, Object valueNew) {
+		Object instanceClass = property.getType();
 		if (instanceClass.equals(Float.class) || instanceClass.equals(float.class)) {
-			if (checkAdditionConditions(feature, value).equals(IMutationGenerator.VALID)) {
+			if (checkAdditionConditions(property, value).equals(IMutationGenerator.VALID)) {
 				if (valueNew == null)
 					throw new IllegalArgumentException("The mutated real value must be defined: " + valueNew);
 				if (valueNew == value)
@@ -76,13 +76,13 @@ public abstract class AMOReal {
 			}
 			return IMutationGenerator.INVALID;
 		}
-		throw new IllegalArgumentException("non-real feature type " + feature);
+		throw new IllegalArgumentException("non-real property type " + property);
 	}
 
-	public static Object checkDeletionConditions(EStructuralFeature feature, Object value, Object valueNew) {
-		Object instanceClass = feature.getEType().getInstanceClass();
+	public static Object checkDeletionConditions(IProperty property, Object value, Object valueNew) {
+		Object instanceClass = property.getType();
 		if (instanceClass.equals(Float.class) || instanceClass.equals(float.class)) {
-			if (checkDeletionConditions(feature, value).equals(IMutationGenerator.VALID)) {
+			if (checkDeletionConditions(property, value).equals(IMutationGenerator.VALID)) {
 				if (valueNew == null)
 					throw new IllegalArgumentException("The mutated real value must be defined: " + valueNew);
 				if (valueNew == value)
@@ -92,13 +92,13 @@ public abstract class AMOReal {
 			}
 			return IMutationGenerator.INVALID;
 		}
-		throw new IllegalArgumentException("non-real feature type " + feature);
+		throw new IllegalArgumentException("non-real property type " + property);
 	}
 
-	public static Object checkReplacementConditions(EStructuralFeature feature, Object value, Object valueNew) {
-		Object instanceClass = feature.getEType().getInstanceClass();
+	public static Object checkReplacementConditions(IProperty property, Object value, Object valueNew) {
+		Object instanceClass = property.getType();
 		if (instanceClass.equals(Float.class) || instanceClass.equals(float.class)) {
-			if (checkReplacementConditions(feature, value).equals(IMutationGenerator.VALID)) {
+			if (checkReplacementConditions(property, value).equals(IMutationGenerator.VALID)) {
 				if (value != null && value.equals(valueNew))
 					return IMutationGenerator.INVALID;
 				if (valueNew != null && valueNew.equals(value))
@@ -109,6 +109,6 @@ public abstract class AMOReal {
 			}
 			return IMutationGenerator.INVALID;
 		}
-		throw new IllegalArgumentException("non-real feature type " + feature);
+		throw new IllegalArgumentException("non-real property type " + property);
 	}
 }

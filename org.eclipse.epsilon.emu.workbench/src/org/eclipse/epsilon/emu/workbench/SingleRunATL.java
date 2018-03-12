@@ -12,7 +12,7 @@ import org.eclipse.epsilon.eol.models.IModel;
 import org.eclipse.epsilon.eol.models.IRelativePathResolver;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.eclipse.epsilon.emu.emf.EmfModelEMU;
+import org.eclipse.epsilon.emc.mutant.emf.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.epsilon.common.util.StringProperties;
 import org.eclipse.epsilon.emc.emf.EmfModel;
+import org.eclipse.epsilon.emc.mutant.IMutant;
 import org.eclipse.epsilon.emu.EmuModule;
 
 public class SingleRunATL {
@@ -34,15 +35,20 @@ public class SingleRunATL {
 
 		String sourceFile = "EMU_script/input.emu";
 		// Petrinet example
-		// String modelString = SingleRun.class.getResource("resources/petrinet_example_1.xmi").getPath();
-		// String metamodel = SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
+		// String modelString =
+		// SingleRun.class.getResource("resources/petrinet_example_1.xmi").getPath();
+		// String metamodel =
+		// SingleRun.class.getResource("resources/PetriNet.ecore").getPath();
 
 		// atl examples
 		String modelString = SingleRunATL.class.getResource("resources/Book2Publication.xmi").getPath();
-		//String modelString = SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
-		//String modelString = SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
-		//String modelString = SingleRun.class.getResource("resources/Table2SVGPieChart.xmi").getPath();
-		
+		// String modelString =
+		// SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
+		// String modelString =
+		// SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
+		// String modelString =
+		// SingleRun.class.getResource("resources/Table2SVGPieChart.xmi").getPath();
+
 		String metamodel = SingleRunATL.class.getResource("resources/ATL.ecore").getPath();
 
 		File output = new File("EMU_script/input_mutants");
@@ -53,7 +59,7 @@ public class SingleRunATL {
 				f.delete();
 			output.delete();
 		}
-		
+
 		EmuModule module = new EmuModule();
 
 		try {
@@ -72,8 +78,9 @@ public class SingleRunATL {
 		}
 	}
 
-	private static EmfModel createEmfModel(String name, String model, String metamodel, boolean readOnLoad, boolean storeOnDisposal) throws EolModelLoadingException, URISyntaxException {
-		EmfModelEMU emfModel = new EmfModelEMU();
+	private static IModel createEmfModel(String name, String model, String metamodel, boolean readOnLoad,
+			boolean storeOnDisposal) throws EolModelLoadingException, URISyntaxException {
+		IMutant emfModel = new EmfMutant();
 		StringProperties properties = new StringProperties();
 		properties.put(EmfModel.PROPERTY_NAME, name);
 		properties.put(EmfModel.PROPERTY_FILE_BASED_METAMODEL_URI, new URI(metamodel).toString());
@@ -97,7 +104,8 @@ public class SingleRunATL {
 			json.put(pair.getKey(), list);
 		}
 
-		try (FileWriter file = new FileWriter(module.getMutantsDir() + "/" + module.getMutantsDir().getName() + "_summary.json")) {
+		try (FileWriter file = new FileWriter(
+				module.getMutantsDir() + "/" + module.getMutantsDir().getName() + "_summary.json")) {
 			file.write(json.toString(4));
 		}
 	}

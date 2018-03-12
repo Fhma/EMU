@@ -7,157 +7,151 @@
 
 package org.eclipse.epsilon.emu.mutation.execute;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.epsilon.emc.mutant.IProperty;
 import org.eclipse.epsilon.emu.EmuModule;
 import org.eclipse.epsilon.emu.mutation.IMutationGenerator;
 import org.eclipse.epsilon.emu.mutation.AMOBoolean;
 import org.eclipse.epsilon.emu.mutation.AMOInteger;
-import org.eclipse.epsilon.emu.mutation.AMOMultiFeature;
+import org.eclipse.epsilon.emu.mutation.AMOMultiProperty;
 import org.eclipse.epsilon.emu.mutation.AMOReal;
-import org.eclipse.epsilon.emu.mutation.AMOSingleRef;
+import org.eclipse.epsilon.emu.mutation.AMOSingleProperty;
 import org.eclipse.epsilon.emu.mutation.AMOString;
 
 public class MutationGeneratorImpl implements IMutationGenerator {
 
 	@Override
-	public Object mutate(Object roleBinding, EStructuralFeature feature, Object value, EmuModule module, String mutation_action) {
+	public Object mutate(Object roleBinding, IProperty property, Object value, EmuModule module,
+			String mutation_action) {
 		if (roleBinding == null)
 			throw new NullPointerException("Undefined pattern match role binding object");
-		if (feature == null)
+		if (property == null)
 			throw new NullPointerException("Undefined feature object");
 		if (module == null)
 			throw new NullPointerException("Undefined EolModule object");
 		if (mutation_action == null)
 			throw new NullPointerException("Undefined mutation action");
 
-		if (!feature.isMany()) {
-			if (feature instanceof EAttribute) {
+		if (!property.isMultiValued()) {
+			if (property.isDataType()) {
 				if (mutation_action.equals(ADD_MUTATION_ACTION)) {
-					Object instanceClass = (Object) feature.getEType().getInstanceClass();
+					Object instanceClass = (Object) property.getType();
 					if (instanceClass.equals(Boolean.class) || instanceClass.equals(boolean.class))
-						return AMOBoolean.additionOp(roleBinding, feature, value, module);
+						return AMOBoolean.additionOp(roleBinding, property, value, module);
 					if (instanceClass.equals(Integer.class) || instanceClass.equals(int.class))
-						return AMOInteger.additionOp(roleBinding, feature, value, module);
+						return AMOInteger.additionOp(roleBinding, property, value, module);
 					if (instanceClass.equals(Float.class) || instanceClass.equals(float.class))
-						return AMOReal.additionOp(roleBinding, feature, value, module);
+						return AMOReal.additionOp(roleBinding, property, value, module);
 					if (instanceClass.equals(String.class))
-						return AMOString.additionOp(roleBinding, feature, value, module);
+						return AMOString.additionOp(roleBinding, property, value, module);
 					throw new IllegalArgumentException("Unsupported feature type");
 				}
 				if (mutation_action.equals(DEL_MUTATION_ACTION)) {
-					Object instanceClass = (Object) feature.getEType().getInstanceClass();
+					Object instanceClass = (Object) property.getType();
 					if (instanceClass.equals(Boolean.class) || instanceClass.equals(boolean.class))
-						return AMOBoolean.deletionOp(roleBinding, feature, value, module);
+						return AMOBoolean.deletionOp(roleBinding, property, value, module);
 					if (instanceClass.equals(Integer.class) || instanceClass.equals(int.class))
-						return AMOInteger.deletionOp(roleBinding, feature, value, module);
+						return AMOInteger.deletionOp(roleBinding, property, value, module);
 					if (instanceClass.equals(Float.class) || instanceClass.equals(float.class))
-						return AMOReal.deletionOp(roleBinding, feature, value, module);
+						return AMOReal.deletionOp(roleBinding, property, value, module);
 					if (instanceClass.equals(String.class))
-						return AMOString.deletionOp(roleBinding, feature, value, module);
+						return AMOString.deletionOp(roleBinding, property, value, module);
 					throw new IllegalArgumentException("Unsupported feature type");
 				}
 				if (mutation_action.equals(REPLACE_MUTATION_ACTION)) {
-					Object instanceClass = (Object) feature.getEType().getInstanceClass();
+					Object instanceClass = (Object) property.getType();
 					if (instanceClass.equals(Boolean.class) || instanceClass.equals(boolean.class))
-						return AMOBoolean.replacementOp(roleBinding, feature, value, module);
+						return AMOBoolean.replacementOp(roleBinding, property, value, module);
 					if (instanceClass.equals(Integer.class) || instanceClass.equals(int.class))
-						return AMOInteger.replacementOp(roleBinding, feature, value, module);
+						return AMOInteger.replacementOp(roleBinding, property, value, module);
 					if (instanceClass.equals(Float.class) || instanceClass.equals(float.class))
-						return AMOReal.replacementOp(roleBinding, feature, value, module);
+						return AMOReal.replacementOp(roleBinding, property, value, module);
 					if (instanceClass.equals(String.class))
-						return AMOString.replacementOp(roleBinding, feature, value, module);
+						return AMOString.replacementOp(roleBinding, property, value, module);
 					throw new IllegalArgumentException("Unsupported feature type");
 				}
-			}
-			else if (feature instanceof EReference) {
+			} else if (property.isSingleValued()) {
 				if (mutation_action.contentEquals(ADD_MUTATION_ACTION))
-					return AMOSingleRef.additionOp(roleBinding, feature, value, module);
+					return AMOSingleProperty.additionOp(roleBinding, property, value, module);
 				if (mutation_action.equals(DEL_MUTATION_ACTION))
-					return AMOSingleRef.deletionOp(roleBinding, feature, value, module);
+					return AMOSingleProperty.deletionOp(roleBinding, property, value, module);
 				if (mutation_action.equals(REPLACE_MUTATION_ACTION))
-					return AMOSingleRef.replacementOp(roleBinding, feature, value, module);
+					return AMOSingleProperty.replacementOp(roleBinding, property, value, module);
 
-			}
-			else
-				throw new IllegalArgumentException("Unrecognizable feature object " + feature);
-		}
-		else {
+			} else
+				throw new IllegalArgumentException("Unrecognizable property object " + property);
+		} else {
 			if (mutation_action.equals(ADD_MUTATION_ACTION))
-				return AMOMultiFeature.additionOp(roleBinding, feature, value, module);
+				return AMOMultiProperty.additionOp(roleBinding, property, value, module);
 			if (mutation_action.equals(DEL_MUTATION_ACTION))
-				return AMOMultiFeature.deletionOp(roleBinding, feature, value, module);
+				return AMOMultiProperty.deletionOp(roleBinding, property, value, module);
 			if (mutation_action.equals(REPLACE_MUTATION_ACTION))
-				return AMOMultiFeature.replacementOp(roleBinding, feature, value, module);
+				return AMOMultiProperty.replacementOp(roleBinding, property, value, module);
 		}
 		return null;
 	}
 
 	@Override
-	public Object checkConditions(EStructuralFeature feature, Object old_value, Object new_value, String mutation_action) {
-		if (feature == null)
-			throw new NullPointerException("Undefined feature object");
+	public Object checkConditions(IProperty property, Object old_value, Object new_value, String mutation_action) {
+		if (property == null)
+			throw new NullPointerException("Undefined property object");
 		if (mutation_action == null)
 			throw new NullPointerException("Undefined mutation action");
 
-		if (!feature.isMany()) {
-			if (feature instanceof EAttribute) {
+		if (!property.isMultiValued()) {
+			if (property.isDataType()) {
 				// single-valued attribute
 				if (mutation_action.equals(ADD_MUTATION_ACTION)) {
-					Object instanceClass = (Object) feature.getEType().getInstanceClass();
+					Object instanceClass = (Object) property.getType();
 					if (instanceClass.equals(Boolean.class) || instanceClass.equals(boolean.class))
-						return AMOBoolean.checkAdditionConditions(feature, old_value, new_value);
+						return AMOBoolean.checkAdditionConditions(property, old_value, new_value);
 					if (instanceClass.equals(Integer.class) || instanceClass.equals(int.class))
-						return AMOInteger.checkAdditionConditions(feature, old_value, new_value);
+						return AMOInteger.checkAdditionConditions(property, old_value, new_value);
 					if (instanceClass.equals(Float.class) || instanceClass.equals(float.class))
-						return AMOReal.checkAdditionConditions(feature, old_value, new_value);
+						return AMOReal.checkAdditionConditions(property, old_value, new_value);
 					if (instanceClass.equals(String.class))
-						return AMOString.checkAdditionConditions(feature, old_value, new_value);
-					throw new IllegalArgumentException("Unsupported feature type");
+						return AMOString.checkAdditionConditions(property, old_value, new_value);
+					throw new IllegalArgumentException("Unsupported property type");
 				}
 				if (mutation_action.equals(DEL_MUTATION_ACTION)) {
-					Object instanceClass = (Object) feature.getEType().getInstanceClass();
+					Object instanceClass = (Object) property.getType();
 					if (instanceClass.equals(Boolean.class) || instanceClass.equals(boolean.class))
-						return AMOBoolean.checkDeletionConditions(feature, old_value, new_value);
+						return AMOBoolean.checkDeletionConditions(property, old_value, new_value);
 					if (instanceClass.equals(Integer.class) || instanceClass.equals(int.class))
-						return AMOInteger.checkDeletionConditions(feature, old_value, new_value);
+						return AMOInteger.checkDeletionConditions(property, old_value, new_value);
 					if (instanceClass.equals(Float.class) || instanceClass.equals(float.class))
-						return AMOReal.checkDeletionConditions(feature, old_value, new_value);
+						return AMOReal.checkDeletionConditions(property, old_value, new_value);
 					if (instanceClass.equals(String.class))
-						return AMOString.checkDeletionConditions(feature, old_value, new_value);
-					throw new IllegalArgumentException("Unsupported feature type");
+						return AMOString.checkDeletionConditions(property, old_value, new_value);
+					throw new IllegalArgumentException("Unsupported property type");
 				}
 				if (mutation_action.equals(REPLACE_MUTATION_ACTION)) {
-					Object instanceClass = (Object) feature.getEType().getInstanceClass();
+					Object instanceClass = (Object) property.getType();
 					if (instanceClass.equals(Boolean.class) || instanceClass.equals(boolean.class))
-						return AMOBoolean.checkReplacementConditions(feature, old_value, new_value);
+						return AMOBoolean.checkReplacementConditions(property, old_value, new_value);
 					if (instanceClass.equals(Integer.class) || instanceClass.equals(int.class))
-						return AMOInteger.checkReplacementConditions(feature, old_value, new_value);
+						return AMOInteger.checkReplacementConditions(property, old_value, new_value);
 					if (instanceClass.equals(Float.class) || instanceClass.equals(float.class))
-						return AMOReal.checkReplacementConditions(feature, old_value, new_value);
+						return AMOReal.checkReplacementConditions(property, old_value, new_value);
 					if (instanceClass.equals(String.class))
-						return AMOString.checkReplacementConditions(feature, old_value, new_value);
-					throw new IllegalArgumentException("Unsupported feature type");
+						return AMOString.checkReplacementConditions(property, old_value, new_value);
+					throw new IllegalArgumentException("Unsupported property type");
 				}
-			}
-			else {
+			} else {
 				// single-valued reference
 				if (mutation_action.equals(ADD_MUTATION_ACTION))
-					return AMOSingleRef.checkAdditionConditions(feature, old_value, new_value);
+					return AMOSingleProperty.checkAdditionConditions(property, old_value, new_value);
 				if (mutation_action.equals(DEL_MUTATION_ACTION))
-					return AMOSingleRef.checkDeletionConditions(feature, old_value, new_value);
+					return AMOSingleProperty.checkDeletionConditions(property, old_value, new_value);
 				if (mutation_action.equals(REPLACE_MUTATION_ACTION))
-					return AMOSingleRef.checkReplacementConditions(feature, old_value, new_value);
+					return AMOSingleProperty.checkReplacementConditions(property, old_value, new_value);
 			}
-		}
-		else {
+		} else {
 			if (mutation_action.equals(ADD_MUTATION_ACTION))
-				return AMOMultiFeature.checkAdditionConditions(feature, old_value, new_value);
+				return AMOMultiProperty.checkAdditionConditions(property, old_value, new_value);
 			if (mutation_action.equals(DEL_MUTATION_ACTION))
-				return AMOMultiFeature.checkDeletionConditions(feature, old_value, new_value);
+				return AMOMultiProperty.checkDeletionConditions(property, old_value, new_value);
 			if (mutation_action.equals(REPLACE_MUTATION_ACTION))
-				return AMOMultiFeature.checkReplacementConditions(feature, old_value, new_value);
+				return AMOMultiProperty.checkReplacementConditions(property, old_value, new_value);
 		}
 		return true;
 	}
