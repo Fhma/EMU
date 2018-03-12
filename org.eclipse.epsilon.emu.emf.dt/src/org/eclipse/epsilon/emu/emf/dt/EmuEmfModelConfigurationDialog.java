@@ -9,11 +9,11 @@ public class EmuEmfModelConfigurationDialog extends EmfModelConfigurationDialog 
 	
 	@Override
 	protected String getModelName() {
-		return "EMF Model for EMU";
+		return "EMF Mutant Model";
 	}
 	
 	@Override
 	protected String getModelType() {
-		return "EMF EMU";
+		return "EMF Mutant";
 	}
 }
