@@ -7,6 +7,8 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.resource.Resource;
+
 import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.emc.emf.EmfUtil;
 import org.eclipse.epsilon.emc.mutant.IMutant;
@@ -30,8 +32,14 @@ public class EmfMutant extends EmfModel implements IMutant {
 			}
 			modelImpl.save(options);
 			return true;
-		} catch (IOException e) {
-			// e.printStackTrace();
+		}
+		catch(Resource.IOWrappedException e)
+		{
+			// Dangling Exception: do nothing
+			return false;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
