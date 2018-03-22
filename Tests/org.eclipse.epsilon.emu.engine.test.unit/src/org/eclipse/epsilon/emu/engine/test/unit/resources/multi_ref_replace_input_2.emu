@@ -1,5 +1,5 @@
 @action replace
-@feature outgoing
+@property outgoing
 pattern mutation_2
 instance:Place
 guard: instance.outgoing.size() + instance.incoming.size() >=3

@@ -1,5 +1,5 @@
 @action add
-@feature comments
+@property comments
 pattern mutation_2
 instance:Transition
 guard: instance.incoming.size() + instance.outgoing.size() >=4

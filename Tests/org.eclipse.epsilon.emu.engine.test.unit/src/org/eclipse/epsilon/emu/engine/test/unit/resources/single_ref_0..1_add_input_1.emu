@@ -1,5 +1,5 @@
 @action add
-@feature rectangle
+@property rectangle
 pattern mutation_1
 instance:Transition
 guard: instance.name = "T0"

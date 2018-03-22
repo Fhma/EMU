@@ -1,5 +1,5 @@
 @action delete
-@feature incoming
+@property incoming
 pattern mutation_1
 instance:Transition
 guard: instance.name.equals("T0")

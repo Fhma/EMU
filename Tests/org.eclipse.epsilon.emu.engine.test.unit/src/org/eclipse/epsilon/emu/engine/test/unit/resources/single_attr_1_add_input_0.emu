@@ -1,5 +1,5 @@
 @action add
-@feature weight
+@property weight
 pattern mutation_0
 instance: PlaceToTransArc
 guard: instance.source.name.equals("P9")

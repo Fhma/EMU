@@ -1,5 +1,5 @@
 @action add
-@feature places
+@property places
 pattern mutation_0
 instance:Place
 guard: instance.radius >=10

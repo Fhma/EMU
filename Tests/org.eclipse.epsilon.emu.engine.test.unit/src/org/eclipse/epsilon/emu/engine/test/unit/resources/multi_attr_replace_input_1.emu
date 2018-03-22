@@ -1,5 +1,5 @@
 @action replace
-@feature start_end_coordinates
+@property start_end_coordinates
 pattern mutation_1
 instance:Rectangle
 guard: instance.belongs_to.isUndefined()

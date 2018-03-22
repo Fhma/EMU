@@ -1,12 +1,12 @@
 @action add
-@feature coordinates
+@property coordinates
 pattern mutation_2
 instance:Place
 guard: instance.fill_colour = "green"
 {
 	do {
 		// adding extra item to a full collection
-		var point:Integer = 99.00;
+		var point:Integer = 99;
 		instance.coordinates.add(point);
 	}
 }

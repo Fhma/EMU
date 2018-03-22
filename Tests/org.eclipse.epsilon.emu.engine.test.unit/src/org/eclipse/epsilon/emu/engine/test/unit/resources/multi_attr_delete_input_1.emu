@@ -1,5 +1,5 @@
 @action delete
-@feature coordinates
+@property coordinates
 pattern mutation_1
 instance:Place
 guard: instance.incoming.isEmpty()

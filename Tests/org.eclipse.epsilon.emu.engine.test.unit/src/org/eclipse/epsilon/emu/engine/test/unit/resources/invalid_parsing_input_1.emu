@@ -1,4 +1,4 @@
 @action replace
-@featuree radius
+@property radius
 pattern no_feature_defined
 instance:Place

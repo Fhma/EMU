@@ -1,5 +1,5 @@
 @action delete
-@feature outgoing
+@property outgoing
 pattern mutation_0
 instance:Place
 guard: instance.incoming.size()>=3

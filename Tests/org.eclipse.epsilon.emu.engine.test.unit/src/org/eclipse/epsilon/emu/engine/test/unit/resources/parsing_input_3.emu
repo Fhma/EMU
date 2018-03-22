@@ -1,5 +1,5 @@
 @action replace
-@feature radius
+@property radius
 pattern Place_replace_radius
 instance:Place from: Place.all
 guard: instance.outgoing.size()>=2

@@ -33,7 +33,7 @@ public class SingleRunATL {
 
 	public void run() {
 
-		String sourceFile = "EMU_script/input.emu";
+		String sourceFile = "EMU_script/inputATL.emu";
 		// Petrinet example
 		// String modelString =
 		// SingleRun.class.getResource("resources/petrinet_example_1.xmi").getPath();

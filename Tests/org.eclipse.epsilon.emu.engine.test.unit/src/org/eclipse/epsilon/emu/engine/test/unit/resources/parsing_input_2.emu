@@ -1,5 +1,5 @@
 @action replace
-@feature radius
+@property radius
 pattern mutation_2
 instance:Place from: Place.all
 guard: instance.outgoing.size()>=2 or instance.outgoing.size()=0

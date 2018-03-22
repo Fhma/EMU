@@ -1,5 +1,5 @@
 @action replace
-@feature rectangle
+@property rectangle
 pattern mutation_2
 instance:Transition
 guard: instance.outgoing.size()+instance.incoming.size()>=4

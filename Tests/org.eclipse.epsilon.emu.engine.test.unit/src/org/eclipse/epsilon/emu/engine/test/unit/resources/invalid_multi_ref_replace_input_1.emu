@@ -1,5 +1,5 @@
 @action replace
-@feature places
+@property places
 pattern mutation_1
 instance:PetriNet
 guard: PlaceToTransArc.all.select(a|a.source.fill_colour = "blue").first().isDefined()

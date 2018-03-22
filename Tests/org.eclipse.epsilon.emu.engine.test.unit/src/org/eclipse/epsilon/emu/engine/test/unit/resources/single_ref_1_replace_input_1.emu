@@ -1,5 +1,5 @@
 @action replace
-@feature source
+@property source
 pattern mutation_1
 instance:PlaceToTransArc
 guard: instance.source.name.equals("P1") and instance.target.name.equals("T1")

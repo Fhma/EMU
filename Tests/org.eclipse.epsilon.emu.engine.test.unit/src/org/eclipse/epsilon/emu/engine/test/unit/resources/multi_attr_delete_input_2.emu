@@ -1,5 +1,5 @@
 @action delete
-@feature comments
+@property comments
 pattern mutation_2
 instance:Place
 guard: instance.fill_colour = "red" or instance.fill_colour = "yellow"

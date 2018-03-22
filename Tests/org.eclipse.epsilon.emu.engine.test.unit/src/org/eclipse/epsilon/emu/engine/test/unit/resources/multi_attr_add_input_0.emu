@@ -1,6 +1,6 @@
 // zero mutants - no matching
 @action add
-@feature comments
+@property comments
 pattern mutation_0
 instance:Transition
 guard: instance.incoming.size() + instance.outgoing.size() >=6

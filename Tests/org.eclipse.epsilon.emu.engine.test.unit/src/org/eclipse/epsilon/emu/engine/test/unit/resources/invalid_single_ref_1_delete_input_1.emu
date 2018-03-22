@@ -1,5 +1,5 @@
 @action delete
-@feature petrinet
+@property petrinet
 pattern mutation_1
 instance:Place
 guard: instance.name = "P6"

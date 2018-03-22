@@ -1,5 +1,5 @@
 @action delete
-@feature radius
+@property radius
 pattern mutation_2
 instance:Place
 guard: instance.outgoing.size()>=2 or instance.outgoing.size() = 0

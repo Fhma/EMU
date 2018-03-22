@@ -33,17 +33,9 @@ public class SingleRunEOL {
 
 	public void run() {
 
-		String sourceFile = "EMU_script/input.emu";
+		String sourceFile = "EMU_script/inputEOL.emu";
 
-		// atl examples
-		String modelString = SingleRunEOL.class.getResource("resources/FOLExample.xmi").getPath();
-		// String modelString =
-		// SingleRun.class.getResource("resources/Make2Ant.xmi").getPath();
-		// String modelString =
-		// SingleRun.class.getResource("resources/Table2TabularHTML.xmi").getPath();
-		// String modelString =
-		// SingleRun.class.getResource("resources/Table2SVGPieChart.xmi").getPath();
-
+		String modelString = SingleRunEOL.class.getResource("resources/ShortestPath.xmi").getPath();
 		String metamodel = SingleRunEOL.class.getResource("resources/Eol.ecore").getPath();
 
 		File output = new File("EMU_script/input_mutants");

@@ -1,5 +1,5 @@
 @action replace
-@feature coordinates
+@property coordinates
 pattern mutation_1
 instance:Place
 guard: instance.fill_colour = "yellow"

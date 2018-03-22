@@ -12,7 +12,7 @@ import org.eclipse.epsilon.emu.engine.test.unit.*;
  * @version April 2017
  */
 @RunWith(Suite.class)
-@SuiteClasses({EMUExecutionTests.class, EmfMutationTests.class, ValidationTests.class})
+@SuiteClasses({ EMUExecutionTests.class, ValidationTestSet1.class, ValidationTestSet2.class })
 public class EMUAcceptanceTest {
 	public static Test suite() {
 		return new JUnit4TestAdapter(EMUAcceptanceTest.class);
