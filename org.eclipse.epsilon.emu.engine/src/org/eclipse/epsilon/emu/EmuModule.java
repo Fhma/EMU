@@ -8,16 +8,13 @@ package org.eclipse.epsilon.emu;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.epsilon.common.module.ModuleElement;
 import org.eclipse.epsilon.common.parse.AST;
-import org.eclipse.epsilon.common.parse.problem.ParseProblem;
 import org.eclipse.epsilon.emu.execute.EmuPatternMatcher;
 import org.eclipse.epsilon.emu.mutation.matrix.OMatrix;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
-import org.eclipse.epsilon.eol.execute.context.IEolContext;
 import org.eclipse.epsilon.epl.EplModule;
 import org.eclipse.epsilon.epl.dom.Domain;
 import org.eclipse.epsilon.epl.dom.Pattern;
@@ -62,7 +59,8 @@ public class EmuModule extends EplModule {
 
 	public OMatrix getOperatorsMatrix() {
 		if (operatorsMatrix == null) {
-			operatorsMatrix = new OMatrix(getMutantsDir().getAbsolutePath() + File.separatorChar + getMutantsDir().getName());
+			operatorsMatrix = new OMatrix(
+					getMutantsDir().getAbsolutePath() + File.separatorChar + getMutantsDir().getName());
 		}
 		return operatorsMatrix;
 	}
@@ -86,36 +84,6 @@ public class EmuModule extends EplModule {
 	}
 
 	@Override
-	public IEolContext getContext() {
-		return super.getContext();
-	}
-
-	@Override
-	public boolean parse(File file) throws Exception {
-		return super.parse(file);
-	}
-
-	@Override
-	public boolean parse(String code, File file) throws Exception {
-		return super.parse(code, file);
-	}
-
-	@Override
-	public boolean parse(String code) throws Exception {
-		return super.parse(code);
-	}
-
-	@Override
-	public boolean parse(URI uri) throws Exception {
-		return super.parse(uri);
-	}
-
-	@Override
-	public List<ParseProblem> getParseProblems() {
-		return super.getParseProblems();
-	}
-
-	@Override
 	public boolean isRepeatWhileMatches() {
 		return false;
 	}
@@ -124,7 +92,8 @@ public class EmuModule extends EplModule {
 		List<String> names = new ArrayList<String>();
 		for (Pattern pt : this.getPatterns()) {
 			if (names.contains(pt.getName()))
-				throw new EolRuntimeException("Dublicate pattern names [" + pt.getName() + "] is found in [" + this.getSourceFile().getPath() + "]");
+				throw new EolRuntimeException("Dublicate pattern names [" + pt.getName() + "] is found in ["
+						+ this.getSourceFile().getPath() + "]");
 			names.add(pt.getName());
 		}
 	}

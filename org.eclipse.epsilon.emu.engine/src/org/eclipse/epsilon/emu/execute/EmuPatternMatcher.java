@@ -152,7 +152,7 @@ public class EmuPatternMatcher extends PatternMatcher {
 		Set<Map.Entry<String, Object>> bindings = match.getRoleBindings().entrySet();
 		String role = getAnnotationValue(ptr, ROLE_ANNOTATION, context);
 		String msg = "Unable to find the target binding role for property [" + property_name + "]";
-		msg += " in pattern [" + ptr.getName() + "] in file [" + module.getFile().getPath() + "].";
+		msg += " in pattern [" + ptr.getName() + "] in file [" + module.getSourceFile().getPath() + "].";
 
 		if (bindings.size() > 1 && role == null)
 			throw new IllegalArgumentException(msg);
