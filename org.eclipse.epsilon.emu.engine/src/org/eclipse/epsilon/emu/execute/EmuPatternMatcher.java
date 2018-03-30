@@ -166,9 +166,10 @@ public class EmuPatternMatcher extends PatternMatcher {
 			Map.Entry<String, Object> pair = it.next();
 			owning_model = (IMutant) module.getContext().getModelRepository().getOwningModel(pair.getValue());
 			boolean isContaining = false;
-			if (role != null && pair.getKey().equals(role))
-				isContaining = owning_model.getPropertyGetter().hasProperty(pair.getValue(), property_name);
-			else
+			if (role != null) {
+				if (pair.getKey().equals(role))
+					isContaining = owning_model.getPropertyGetter().hasProperty(pair.getValue(), property_name);
+			} else
 				isContaining = true;
 
 			if (isContaining) {

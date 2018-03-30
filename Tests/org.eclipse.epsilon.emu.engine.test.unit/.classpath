@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="/Users/AFADF_F/Git/Fhma/EMU/Tests/org.eclipse.epsilon.emu.engine.test.unit/lib/junit-4.11.jar"/>
 	<classpathentry kind="lib" path="/Users/AFADF_F/Git/Fhma/EMU/Tests/org.eclipse.epsilon.emu.engine.test.unit/lib/hamcrest-core-1.3.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.epsilon.emc.mutant"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
