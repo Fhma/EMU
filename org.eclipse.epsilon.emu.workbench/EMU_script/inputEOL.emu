@@ -9,13 +9,10 @@
 // 1.0: delete one operatioin declaration instance from EOL library
 // module
 @action delete
-@property operations
-@role instance
+@property arrow
 pattern delete_one_operation_declarations
-instance:EOLLibraryModule,
-element:OperationDefinition
-    from: instance.operations {
+instance:MethodCallExpression {
 	do {
-	    instance.operations.remove(element);
+	    instace.arrow = true;
 	}
 }
