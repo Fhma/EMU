@@ -1,0 +1,124 @@
+// invalid addition to full collection
+@action add
+@property two_types
+pattern invalid_addition1
+instance:Type in:Type.all.select(e|e.name = "type_two_types_full_value") {
+	do {
+		instance.two_types.add(SubType1.createInstance());
+	}
+}
+
+// invalid addition of a null value
+@action add
+@property two_types
+pattern invalid_addition2
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = null;
+		instance.two_types.add(e);
+	}
+}
+
+// invalid addition of an exsiting vlaue
+@action add
+@property two_types
+pattern invalid_addition3
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = instance.two_types.random();
+		instance.two_types.add(e);
+	}
+}
+
+// important
+// invalid addition of incompatible value
+// allowed by the implementation of EMU (a limitation)
+/*
+@action add
+@property two_types
+pattern invalid_addition4
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		instance.two_types.add(Type.all.selectOne(e|e.name <> "type_two_types_one_value"));
+	}
+}
+*/
+
+// invalid deletion of empty collection
+@action delete
+@property two_types
+pattern invalid_deletion1
+instance:Type in:Type.all.select(e|e.name = "type_two_types_empty") {
+	do {
+		var e = instance.two_types.random();
+		instance.two_types.remove(e);
+	}
+}
+
+// invalid deletion of non-existing item
+@action delete
+@property two_types
+pattern invalid_deletion2
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = SubType1.createInstance();
+		instance.two_types.remove(e);
+	}
+}
+
+// invalid deletion of null value
+@action delete
+@property two_types
+pattern invalid_deletion3
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = null;
+		instance.two_types.remove(e);
+	}
+}
+
+// invalid replacement of empty collection
+@action replace
+@property two_types
+pattern invalid_replacement1
+instance:Type in:Type.all.select(e|e.name = "type_two_types_empty") {
+	do {
+		var e = SubType2.createInstance();
+		instance.two_types.remove(e);
+		instance.two_types.add(SubType2.createInstance());
+	}
+}
+// invalid replacement of a non-existing item
+@action replace
+@property two_types
+pattern invalid_replacement2
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = SubType2.createInstance();
+		instance.two_types.remove(e);
+		instance.two_types.add(SubType2.createInstance());
+	}
+}
+// invalid replacement of a same element
+@action replace
+@property two_types
+pattern invalid_replacement3
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = instance.two_types.random();
+		instance.two_types.remove(e);
+		instance.two_types.add(e);
+	}
+}
+
+// invalid replacement of a null value
+@action replace
+@property two_types
+pattern invalid_replacement4
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = null;
+		instance.two_types.remove(e);
+		instance.two_types.add(SubType1.createInstance());
+	}
+}

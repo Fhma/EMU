@@ -13,6 +13,6 @@
 pattern delete_one_operation_declarations
 instance:MethodCallExpression {
 	do {
-	    instace.arrow = true;
+	    instance.arrow = true;
 	}
 }

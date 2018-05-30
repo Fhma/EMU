@@ -9,47 +9,27 @@ package org.eclipse.epsilon.emu.mutation;
 
 import org.eclipse.epsilon.emc.mutant.IProperty;
 
-public abstract class AMOSingleProperty {
+public abstract class AMOPrimitiveType {
 
 	public static Object checkAdditionConditions(IProperty property, Object value) {
-		if (value != null)
-			return IMutationChecker.INVALID;
-		return IMutationChecker.VALID;
+		return IMutationChecker.INVALID;
 	}
 
 	public static Object checkDeletionConditions(IProperty property, Object value) {
-		if (property.isRequired())
-			return IMutationChecker.INVALID;
-		if (value == null)
-			return IMutationChecker.INVALID;
-		return IMutationChecker.VALID;
+		return IMutationChecker.INVALID;
 	}
 
 	public static Object checkReplacementConditions(IProperty property, Object value) {
-		if (value == null)
-			return IMutationChecker.INVALID;
-		return IMutationChecker.VALID;
+		if (value != null)
+			return IMutationChecker.VALID;
+		return IMutationChecker.INVALID;
 	}
 
 	public static Object checkAdditionConditions(IProperty property, Object value, Object newValue) {
-		if (checkAdditionConditions(property, value).equals(IMutationChecker.VALID)) {
-			if (newValue == null)
-				return IMutationChecker.INVALID;
-			if (!property.isCompatibleValue(newValue))
-				return IMutationChecker.INVALID;
-			if (newValue.equals(value))
-				return IMutationChecker.INVALID;
-			return IMutationChecker.VALID;
-		}
 		return IMutationChecker.INVALID;
 	}
 
 	public static Object checkDeletionConditions(IProperty property, Object value, Object newValue) {
-		if (checkDeletionConditions(property, value).equals(IMutationChecker.VALID)) {
-			if (newValue != null)
-				return IMutationChecker.INVALID;
-			return IMutationChecker.VALID;
-		}
 		return IMutationChecker.INVALID;
 	}
 
@@ -57,9 +37,9 @@ public abstract class AMOSingleProperty {
 		if (checkReplacementConditions(property, value).equals(IMutationChecker.VALID)) {
 			if (newValue == null)
 				return IMutationChecker.INVALID;
-			if (!property.isCompatibleValue(newValue))
-				return IMutationChecker.INVALID;
 			if (newValue.equals(value))
+				return IMutationChecker.INVALID;
+			if (!property.isCompatibleValue(newValue))
 				return IMutationChecker.INVALID;
 			return IMutationChecker.VALID;
 		}

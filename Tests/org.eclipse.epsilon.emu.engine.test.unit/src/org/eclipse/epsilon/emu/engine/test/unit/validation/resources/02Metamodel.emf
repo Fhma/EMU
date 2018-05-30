@@ -1,0 +1,30 @@
+@namespace(uri="Metamodel", prefix="metamodel")
+package metamodel;
+
+class Type{
+	attr EString name;
+	attr EBoolean _boolean;
+	attr EByte _byte;
+	attr EShort _short;
+	attr EInt _int;
+	attr ELong _long;
+	attr EFloat _float;
+	attr EDouble _double;
+	attr EChar _char;
+	attr EIntegerObject o_integer;
+	
+	val SuperType one_type_optional;
+	val SuperType[1] one_type_required;
+	val SuperType[0..2] two_types;
+}
+
+abstract class SuperType {
+}
+
+class SubType1 extends SuperType {
+	attr EString name;
+}
+
+class SubType2 extends SuperType {
+	attr EString name;
+}

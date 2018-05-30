@@ -1,0 +1,8 @@
+@action replace
+@property _double
+pattern valid_replace
+instance:Type in:Type.all.select(e|e.name = "type_primitives") { 
+	do {
+		instance._double = new Native("java.lang.Double")("2.2");
+	}
+}

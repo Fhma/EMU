@@ -1,0 +1,8 @@
+@action replace
+@property _int
+pattern invalid_replace
+instance:Type in:Type.all.select(e|e._int = 1) { 
+	do {
+		instance._int = 1;
+	}
+}

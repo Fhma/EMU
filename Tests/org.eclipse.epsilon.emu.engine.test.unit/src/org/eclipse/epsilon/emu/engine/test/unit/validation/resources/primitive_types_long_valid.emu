@@ -1,0 +1,8 @@
+@action replace
+@property _long
+pattern valid_replace
+instance:Type in:Type.all.select(e|e._long = 1) {
+	do {
+		instance._long = new Native("java.lang.Long")("2");
+	}
+}

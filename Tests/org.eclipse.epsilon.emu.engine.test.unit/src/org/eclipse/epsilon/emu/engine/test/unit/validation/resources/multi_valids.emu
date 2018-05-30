@@ -1,0 +1,65 @@
+// valid addition to empty collection
+@action add
+@property two_types
+pattern valid_addition1
+instance:Type in:Type.all.select(e|e.name = "type_two_types_empty") {
+	do {
+		instance.two_types.add(SubType1.createInstance());
+	}
+}
+
+// valid addition to collection that contains one item
+@action add
+@property two_types
+pattern valid_addition2
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		instance.two_types.add(SubType1.createInstance());
+	}
+}
+
+// delete from a full collection of items
+@action delete
+@property two_types
+pattern valid_deletion1
+instance:Type in:Type.all.select(e|e.name = "type_two_types_full_value") {
+	do {
+		var e = instance.two_types.random();
+		instance.two_types.remove(e);
+	}
+}
+
+// delete last item in the collection
+@action delete
+@property two_types
+pattern valid_deletion2
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = instance.two_types.random();
+		instance.two_types.remove(e);
+	}
+}
+
+// replace with valid value: one collection of items
+@action replace
+@property two_types
+pattern valid_replacement1
+instance:Type in:Type.all.select(e|e.name = "type_two_types_one_value") {
+	do {
+		var e = instance.two_types.random();
+		instance.two_types.remove(e);
+		instance.two_types.add(SubType1.createInstance());
+	}
+}
+
+// replace with valid value: full collection of items
+@action replace
+@property two_types
+pattern valid_replacement2
+instance:Type in:Type.all.select(e|e.name = "type_two_types_full_value") {
+	do {
+		var e = instance.two_types.random();
+		instance.two_types.remove(e);
+		instance.two_types.add(SubType1.createInstance());
+	}
+}

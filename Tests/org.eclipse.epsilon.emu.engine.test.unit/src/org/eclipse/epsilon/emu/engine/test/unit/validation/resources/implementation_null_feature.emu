@@ -1,0 +1,7 @@
+@action delete
+pattern impl1
+instance:Type in:Type.all.select(e|e.name = 'type_primitives') {
+	do { 
+		// nothing
+	}
+}

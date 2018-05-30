@@ -1,0 +1,9 @@
+@action delete
+@property o_integer
+pattern impl1
+instance:Type in:Type.all.select(e|e.name = 'type_primitives'),
+instance:SuperType in: SuperType.all.select(e|e.isTypeOf(SubType1)) {
+	do { 
+		// nothing
+	}
+}

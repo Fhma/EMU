@@ -1,0 +1,39 @@
+// valid addition to undefined value
+@action add
+@property one_type_optional
+pattern valid_addition
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_no_value") {
+	do {
+		instance.one_type_optional = SubType1.createInstance();
+	}
+}
+
+// delete an optional value
+@action delete
+@property one_type_optional
+pattern valid_deletion
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_value") {
+	do {
+		instance.one_type_optional = null;
+	}
+}
+
+// replace with valid value
+@action replace
+@property one_type_optional
+pattern valid_replacement_1
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_value") {
+	do {
+		instance.one_type_optional = SubType2.createInstance();
+	}
+}
+
+// replace with valid value
+@action replace
+@property one_type_required
+pattern valid_replacement_2
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_value") {
+	do {
+		instance.one_type_required = SubType2.createInstance();
+	}
+}

@@ -1,0 +1,8 @@
+@action replace
+@property _byte
+pattern valid_replace
+instance:Type in:Type.all.select(e|e._byte = 1) {
+	do {
+		instance._byte = new Native("java.lang.Byte")("2");
+	}
+}

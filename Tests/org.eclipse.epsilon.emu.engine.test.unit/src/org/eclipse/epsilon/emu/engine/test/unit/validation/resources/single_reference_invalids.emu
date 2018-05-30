@@ -1,0 +1,89 @@
+// invalid addition to defined value
+@action add
+@property one_type_optional
+pattern invalid_addition_1
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_value") {
+	do {
+		instance.one_type_optional = SubType1.createInstance();
+	}
+}
+
+// invalid addition to defined value required
+@action add
+@property one_type_required
+pattern invalid_addition_2
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_value") {
+	do {
+		instance.one_type_required = SubType1.createInstance();
+	}
+}
+
+// invalid addition to incompatible value
+@action add
+@property one_type_optional
+pattern invalid_addition_3
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_no_value") {
+	do {
+		instance.one_type_optional = Type.all.selectOne(e|e.name <> "type_one_type_optional_no_value");
+	}
+}
+
+// invalid deletion of undefined value
+@action delete
+@property one_type_optional
+pattern invalid_deletion_1
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_no_value") {
+	do {
+		instance.one_type_optional = null;
+	}
+}
+
+// invalid deletion of required feature
+@action delete
+@property one_type_required
+pattern invalid_deletion_2
+instance:Type in:Type.all.select(e|e.name = "type_one_type_required") {
+	do {
+		instance.one_type_optional = null;
+	}
+}
+
+// invalid replacement of undefined value
+@action replace
+@property one_type_optional
+pattern invalid_replacement_1
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_no_value") {
+	do {
+		instance.one_type_optional = SubType1.createInstance();
+	}
+}
+
+// invalid replacement with null value
+@action replace
+@property one_type_optional
+pattern invalid_replacement_2
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_value") {
+	do {
+		instance.one_type_optional = null;
+	}
+}
+
+// invalid replacement with incompatible value
+@action replace
+@property one_type_optional
+pattern invalid_replacement_3
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_value") {
+	do {
+		instance.one_type_optional = Type.all.selectOne(e|e.name <> "type_one_type_optional_value");
+	}
+}
+
+// invalid replacement with same value
+@action replace
+@property one_type_optional
+pattern invalid_replacement_4
+instance:Type in:Type.all.select(e|e.name = "type_one_type_optional_value") {
+	do {
+		instance.one_type_optional = Type.all.selectOne(e|e.name = "type_one_type_optional_value").one_type_optional;
+	}
+}

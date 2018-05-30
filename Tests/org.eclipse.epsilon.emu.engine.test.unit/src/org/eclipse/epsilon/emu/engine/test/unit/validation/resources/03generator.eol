@@ -1,0 +1,54 @@
+var type_primitives = Type.createInstance();
+type_primitives.name = "type_primitives";
+type_primitives._boolean = new Native("java.lang.Boolean")("true");
+type_primitives._byte = new Native("java.lang.Byte")("1");
+type_primitives._short = new Native("java.lang.Short")("1");
+type_primitives._int = 1;
+type_primitives._long = new Native("java.lang.Long")("1");
+type_primitives._float = 1.1;
+type_primitives._double = new Native("java.lang.Double")("1.1");
+//type_primitives._char = new Native("java.lang.Character")('A'); // character value is set manually ie. from xmi editor
+type_primitives.o_integer = new Native("java.lang.Integer")("1");
+type_primitives.one_type_required = newObject_subType1("req for type_primitives");
+
+var type_one_type_optional_no_value = Type.createInstance();
+type_one_type_optional_no_value.name = "type_one_type_optional_no_value";
+type_one_type_optional_no_value.one_type_required = newObject_subType1("req for type_one_type_optional_no_value");
+
+var type_one_type_optional_value = Type.createInstance();
+type_one_type_optional_value.name = "type_one_type_optional_value";
+type_one_type_optional_value.one_type_optional = newObject_subType1("type_one_type_optional_value");
+type_one_type_optional_value.one_type_required = newObject_subType1("req for type_one_type_optional_value");
+
+var type_one_type_required = Type.createInstance();
+type_one_type_required.name = "type_one_type_required";
+type_one_type_required.one_type_required = newObject_subType1("for type_one_type_required");
+
+var type_two_types_empty = Type.createInstance();
+type_two_types_empty.name="type_two_types_empty";
+type_two_types_empty.one_type_required = newObject_subType1("req for type_two_types_empty");
+
+var type_two_types_one_value = Type.createInstance();
+type_two_types_one_value.name = "type_two_types_one_value";
+type_two_types_one_value.two_types.add(newObject_subType2("type_two_types_one_value"));
+type_two_types_one_value.one_type_required = newObject_subType1("req for type_two_types_one_value");
+
+var type_two_types_full_value = Type.createInstance();
+type_two_types_full_value.name = "type_two_types_full_value";
+type_two_types_full_value.two_types.add(newObject_subType1("type_two_types_full_value 1"));
+type_two_types_full_value.two_types.add(newObject_subType2("type_two_types_full_value 2"));
+type_two_types_full_value.one_type_required = newObject_subType1("req for type_two_types_full_value");
+
+operation newObject_subType1(n:String):SuperType
+{
+	var t = SubType1.createInstance();
+	t.name = n;
+	return t;
+}
+
+operation newObject_subType2(n:String):SuperType
+{
+	var t = SubType2.createInstance();
+	t.name = n;
+	return t;
+}

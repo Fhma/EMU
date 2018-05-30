@@ -1,0 +1,8 @@
+@action replace
+@property _boolean
+pattern valid_replace
+instance:Type in:Type.all.select(e|e._boolean = true) {
+	do {
+		instance._boolean = false;
+	}
+}

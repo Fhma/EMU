@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:metamodel="Metamodel">
+  <metamodel:Type
+      name="type_primitives"
+      _boolean="true"
+      _byte="1"
+      _short="1"
+      _int="1"
+      _long="1"
+      _float="1.1"
+      _double="1.1"
+      _char="65"
+      o_integer="1">
+    <one_type_required
+        xsi:type="metamodel:SubType1"
+        name="req for type_primitives"/>
+  </metamodel:Type>
+  <metamodel:Type
+      name="type_one_type_optional_no_value">
+    <one_type_required
+        xsi:type="metamodel:SubType1"
+        name="req for type_one_type_optional_no_value"/>
+  </metamodel:Type>
+  <metamodel:Type
+      name="type_one_type_optional_value">
+    <one_type_optional
+        xsi:type="metamodel:SubType1"
+        name="type_one_type_optional_value"/>
+    <one_type_required
+        xsi:type="metamodel:SubType1"
+        name="req for type_one_type_optional_value"/>
+  </metamodel:Type>
+  <metamodel:Type
+      name="type_one_type_required">
+    <one_type_required
+        xsi:type="metamodel:SubType1"
+        name="for type_one_type_required"/>
+  </metamodel:Type>
+  <metamodel:Type
+      name="type_two_types_empty">
+    <one_type_required
+        xsi:type="metamodel:SubType1"
+        name="req for type_two_types_empty"/>
+  </metamodel:Type>
+  <metamodel:Type
+      name="type_two_types_one_value">
+    <one_type_required
+        xsi:type="metamodel:SubType1"
+        name="req for type_two_types_one_value"/>
+    <two_types
+        xsi:type="metamodel:SubType2"
+        name="type_two_types_one_value"/>
+  </metamodel:Type>
+  <metamodel:Type
+      name="type_two_types_full_value">
+    <one_type_required
+        xsi:type="metamodel:SubType1"
+        name="req for type_two_types_full_value"/>
+    <two_types
+        xsi:type="metamodel:SubType1"
+        name="type_two_types_full_value 1"/>
+    <two_types
+        xsi:type="metamodel:SubType2"
+        name="type_two_types_full_value 2"/>
+  </metamodel:Type>
+</xmi:XMI>

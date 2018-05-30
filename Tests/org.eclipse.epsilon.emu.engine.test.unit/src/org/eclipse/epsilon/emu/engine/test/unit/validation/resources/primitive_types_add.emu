@@ -1,0 +1,8 @@
+@action add
+@property _boolean
+pattern invalid_delete
+instance:Type in:Type.all.select(e|e._boolean = true) {
+	do {
+		// nothing
+	}
+}
