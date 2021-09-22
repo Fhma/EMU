@@ -1,9 +1,0 @@
-@action replace
-@feature radius
-pattern invalid name
-instance:Place from: Place.all
-guard: instance.outgoing.size()>=2 or instance.outgoing.size()=0
-{
-	
-}
-//Done

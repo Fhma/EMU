@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="/org.eclipse.epsilon.emu.engine.test.unit"/>
-	<classpathentry kind="lib" path="/Users/AFADF_F/Git/Fhma/EMU/Tests/org.eclipse.epsilon.emu.engine.test.acceptance/lib/junit-4.11.jar"/>
-	<classpathentry kind="lib" path="/Users/AFADF_F/Git/Fhma/EMU/Tests/org.eclipse.epsilon.emu.engine.test.acceptance/lib/hamcrest-core-1.3.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
