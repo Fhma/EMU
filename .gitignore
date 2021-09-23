@@ -9,6 +9,13 @@ bin/
 #*.jar
 *.war
 *.ear
+*.aux
+*.fls
+*.log
+*.gz
+*.tex
+*.out
+*.fdb_latexmk
 
 .DS_Store
 
