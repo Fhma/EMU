@@ -1,0 +1,19 @@
+@namespace(uri="Book", prefix="book")
+package book;
+
+class Book {
+	attr String author;
+	readonly transient derived attr int totalPages;
+	val Chapter[+]#book chapters;
+}
+
+class Chapter {
+	attr int numPages;
+	val Section[*] sections;
+	ref Book#chapters book;
+}
+
+class Section {
+	attr String[1] content;
+}
+

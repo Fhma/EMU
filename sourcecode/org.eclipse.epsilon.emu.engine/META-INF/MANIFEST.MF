@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Mutation Language
+Bundle-SymbolicName: org.eclipse.epsilon.emu.engine
+Bundle-Version: 1.5.0.qualifier
+Require-Bundle: org.eclipse.epsilon.eol.engine;visibility:=reexport,
+ org.eclipse.epsilon.erl.engine;visibility:=reexport,
+ org.eclipse.epsilon.emc.mutant,
+ org.eclipse.epsilon.epl.engine,
+ org.eclipse.core.resources,
+ org.eclipse.equinox.registry
+Bundle-Vendor: Eclipse Modeling Project
+Export-Package: org.eclipse.epsilon.emu,
+ org.eclipse.epsilon.emu.dom,
+ org.eclipse.epsilon.emu.exceptions,
+ org.eclipse.epsilon.emu.execute
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.eclipse.epsilon.emc.emf,
+ org.eclipse.epsilon.epl.combinations,
+ org.eclipse.epsilon.epl.dom,
+ org.eclipse.epsilon.epl.execute

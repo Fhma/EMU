@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.apache.commons.collections
+Bundle-SymbolicName: org.apache.commons.collections
+Bundle-Version: 3.2.2
+Automatic-Module-Name: org.apache.commons.collections
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.apache.commons.collections

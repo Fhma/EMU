@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<book:Book xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:book="Book" author="second book author">
+  <chapters numPages="2">
+    <sections content="This is content 1 for section 1 of first chapter in book 2"/>
+    <sections content="This is content 2 for section 2 of first chapter in book 2"/>
+  </chapters>
+  <chapters numPages="3">
+    <sections content="This is content 3 for section 3 of second chapter in book 2"/>"/>
+    <sections content="This is content 4 for section 4 of second chapter in book 2"/>"/>
+  </chapters>
+</book:Book>

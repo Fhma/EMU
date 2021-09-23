@@ -1,0 +1,9 @@
+// update the name of author 
+pattern author
+b:Book in: Book.all,
+c:Chapter from:b.chapters { 
+	do {
+			if(c.numPages>=5)
+				b.author = "update author";
+	}
+}

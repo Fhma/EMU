@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Epsilon Mutation Language Development Tools
+Bundle-SymbolicName: org.eclipse.epsilon.emu.dt;singleton:=true
+Bundle-Version: 1.5.0.qualifier
+Bundle-Activator: org.eclipse.epsilon.emu.dt.EmuPlugin
+Bundle-Vendor: Eclipse Modeling Project
+Require-Bundle: org.eclipse.jface.text,
+ org.eclipse.epsilon.epl.engine,
+ org.eclipse.epsilon.emu.engine,
+ org.eclipse.epsilon.erl.dt
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.epsilon.emu.dt,
+ org.eclipse.epsilon.emu.dt.editor,
+ org.eclipse.epsilon.emu.dt.editor.outline,
+ org.eclipse.epsilon.emu.dt.launching,
+ org.eclipse.epsilon.emu.dt.launching.tabs,
+ org.eclipse.epsilon.emu.dt.wizards

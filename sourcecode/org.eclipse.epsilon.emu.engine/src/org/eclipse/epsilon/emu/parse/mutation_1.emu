@@ -1,0 +1,8 @@
+// update the name of author
+@max3
+mutate author
+b:Book in: Book.all,
+c:Chapter from:b.chapters guard:c.numPages>=5
+byReplace { 
+		b.author = "update author";
+}
